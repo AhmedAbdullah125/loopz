@@ -86,7 +86,7 @@ export default function Verfiy({ phone }) {
                         </Form>
                         {/* Link to registration page */}
                         <div className="have-account">
-                            <span>Don't have an account? </span>
+                            <span>Do not have an account? </span>
                             <Link href="/register" className={`${loading ? 'opacityp-50' : ''}`}>Create Account</Link>
                         </div>
                     </div>
