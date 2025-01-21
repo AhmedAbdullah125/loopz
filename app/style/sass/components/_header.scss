@@ -1,0 +1,324 @@
+.font16-400 {
+    font-size: 16px;
+    font-weight: 400;
+}
+.logoMainLink{
+    flex-shrink: 0;
+}
+.font14-400 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.font12-400 {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.colorMain {
+    color: $main;
+}
+
+.bgMain {
+    color: $main;
+}
+
+.upper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #484C52;
+    padding: 10px 33px 15px;
+
+    .right-side {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .van {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+
+        img {
+            width: 20px;
+            height: auto;
+        }
+    }
+
+    .global {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+        cursor: pointer;
+
+        img {
+            width: 12px;
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        i {
+            font-size: 8px;
+        }
+    }
+
+    .langs {
+        display: flex;
+        flex-direction: column;
+
+        gap: 5px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        align-items: center;
+        justify-content: center;
+        /* border: 1px solid #484C52; */
+        min-width: 150px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px #484C52;
+        position: absolute;
+        top: 30px;
+        inset-inline-end: 0;
+        z-index: 60;
+        background-color: white;
+        display: none;
+
+        a {
+            margin: 0;
+            border-bottom: 1px solid #484C52;
+            width: 100%;
+            text-align: center;
+            // &inclide tr;
+            color: #484C52;
+        }
+
+        a:hover {
+            background-color: #cfd3d8;
+        }
+
+        a:last-child {
+            border: none;
+        }
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: #484C52;
+        opacity: .3;
+        z-index: 50;
+        display: none;
+    }
+}
+
+.mainNavBar {
+    border-radius: 28px;
+    box-shadow: 0 0 20px #E5E5E5;
+    display: flex;
+    align-items: center;
+    padding: 17px 33px;
+    border: 1px solid rgba($color: #1C1C1C, $alpha: .1);
+    justify-content: space-between;
+    gap: 25px;
+
+    .logo {
+        width: 89px;
+        height: auto;
+        max-height: 50px;
+    }
+
+    .selec {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        i {
+            font-size: 8px;
+        }
+    }
+
+    .locati {
+        flex-shrink: 0;
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 991px) {
+    .mainNavBar {
+        flex-wrap: wrap;
+        gap: 15px;
+
+        .input-cont {
+            order: 2;
+
+            input {
+                padding-inline-start: 5px;
+            }
+        }
+    }
+}
+
+
+header {
+    margin-bottom: 24px;
+    .input-cont {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        border-radius: 30px;
+        border: 1px solid #1C1C1C1A;
+        height: 48px;
+        // max-width: 436px;
+        width: 100%;
+
+        input {
+            border: none;
+            outline: none;
+            padding-inline-start: 30px;
+            height: 100%;
+            width: 100%;
+            border-radius: 30px;
+            background-color: transparent;
+        }
+
+        .dropdown {
+            button {
+                background-color: transparent;
+                color: #484C52;
+                font-family: Linotte-Light;
+                font-size: 14px;
+                font-weight: 400;
+                border: none;
+                outline: none;
+                display: flex;
+                gap: 7px;
+                align-items: center;
+            }
+
+            button:active {
+                background-color: $main;
+            }
+
+            button:hover {
+                background-color: $main;
+                color: $white;
+            }
+
+            button:focus {
+                border: none;
+                box-shadow: none;
+            }
+
+            .dropdown-toggle::after {
+                display: none;
+            }
+        }
+
+        .search-icon {
+            width: 48px;
+            height: 48px;
+            background-color: $main;
+            border-radius: 0 30px 30px 0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    }
+
+    .nav-card {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+        flex-shrink: 0;
+        img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+
+        i {
+            color: $main;
+            height: 20px;
+            width: auto;
+            max-width: 100px;
+            border-radius: 3px;
+            overflow: hidden;
+            padding-bottom: 3px;
+
+        }
+
+        p {
+            color: $main;
+            font-size: 14px;
+            font-weight: 400;
+            margin: 0;
+        }
+    }
+
+    .cart {
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+        background-color: $main;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+
+        i {
+            color: $white;
+        }
+
+        span {
+            position: absolute;
+            inset-inline-end: -4px;
+            bottom: 0;
+            width: 18px;
+            height: 18px;
+            border: 1px solid $main;
+            box-shadow: 0 0 10px $white;
+            background-color: $white;
+            color: $main;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Linotte-Regular;
+            font-size: 12px;
+            font-weight: 400;
+        }
+    }
+
+    .balance {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 4px;
+
+        span {
+            color: $main;
+            font-size: 14px;
+            font-weight: 700;
+        }
+    }
+
+    .cart-balance {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+}

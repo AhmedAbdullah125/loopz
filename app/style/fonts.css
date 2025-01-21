@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "Linotte";
+  src: url("../webfonts/Linotte/Linotte-Light.woff2") format("woff2"),
+      url("../webfonts/Linotte/Linotte-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Linotte";
+  src: url("../webfonts/Linotte/Linotte-Regular.woff2") format("woff2"),
+      url("../webfonts/Linotte/Linotte-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Linotte";
+  src: url("../webfonts/Linotte/Linotte-SemiBold.woff2") format("woff2"),
+      url("../webfonts/Linotte/Linotte-SemiBold.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Linotte";
+  src: url("../webfonts/Linotte/Linotte-Bold.woff2") format("woff2"),
+      url("../webfonts/Linotte/Linotte-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Linotte";
+  src: url("../webfonts/Linotte/Linotte-Heavy.woff2") format("woff2"),
+      url("../webfonts/Linotte/Linotte-Heavy.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+
