@@ -34,8 +34,9 @@ export const logOut = async (API_BASE_URL, setLoading, router, toast) => {
 
             // Clear token and redirect
             localStorage.removeItem('token');
-            router.refresh();
+            location.reload();
             router.push('/');
+
         } else {
             const unexpectedMessage = response.data?.message || 'Unexpected response';
             toast(unexpectedMessage, {
