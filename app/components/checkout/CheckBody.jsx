@@ -13,6 +13,7 @@ import axios from 'axios';
 import Loading from '@/app/loading';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
 import { checkOut } from './checkOut';
+import { useRouter } from 'next/navigation';
 
 export default function CartBody() {
     let { data } = useContext(ProfileDataContext);
@@ -69,8 +70,9 @@ export default function CartBody() {
         }
         getAddresses();
     }, []);
+    const router = useRouter();
     const handleCheckout = async () => {
-        await checkOut(cartCont, setLoading ,address.id , selectedTab ,code );
+        await checkOut(cartCont, setLoading ,address.id , selectedTab ,code ,cartHandling ,router);
     }
     return (
         <div className="cart-body">
@@ -86,7 +88,6 @@ export default function CartBody() {
 
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
-
                                     <div className="cart-products checkout-address">
                                         <div className="l-side">
                                             <div className="img-cont">
@@ -248,7 +249,7 @@ export default function CartBody() {
                                                         </div>
                                                     </div>
                                                     {
-                                                        totalPrice + tax > Number(data?.balance) ?
+                                                        totalPrice + tax + discount + ShippingPrice  > Number(data?.balance) ?
 
                                                             <div className="r-side">
                                                                 <div className="img-cont">

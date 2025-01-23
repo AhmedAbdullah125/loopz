@@ -78,7 +78,7 @@ export default function NavBar() {
                             <span>{cartCont?.length}</span>
                         </Link>
                         <div className="balance">
-                            <span>{data?.balance}</span>
+                            <span>{data?.balance || 0}</span>
                             <span>KD</span>
                         </div>
                     </div>

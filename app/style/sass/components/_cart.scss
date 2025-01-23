@@ -153,6 +153,10 @@
                 color: $main;
                 font-size: 14px;
                 font-weight: 700;
+                border: none;
+                outline: none;
+                background-color: transparent;
+                cursor: pointer;
             }
             .imp-btn-cont{
                 position: relative;

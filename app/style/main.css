@@ -2118,6 +2118,10 @@ header .cart-balance {
   color: var(--main-color);
   font-size: 14px;
   font-weight: 700;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 .cart-body .price-summary .input-cont .imp-btn-cont {
   position: relative;
@@ -3466,6 +3470,11 @@ header .cart-balance {
 }
 .ticket-cont-list .l-side .text-cont h5 .heavy {
   font-weight: 900;
+}
+
+.last {
+  border: 1px solid var(--main-color);
+  box-shadow: 0px 0px 10px rgba(122, 58, 191, 0.5);
 }
 
 .dialog-cont-in-ticket {

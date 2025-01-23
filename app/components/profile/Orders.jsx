@@ -93,7 +93,7 @@ export default function Orders() {
 
                                 {
                                     neededDataCopy.map((item, index) =>
-                                        <Link href={`${selectedIndex == 1 ?`/profile/order?id=${item.id}`:`/profile/rental?id=${item.id}`}`} className="ticket-cont ticket-cont-list" key={item.id}>
+                                        <Link href={`${selectedIndex == 1 ?`/profile/order?id=${item.id}`:`/profile/rental?id=${item.id}`}`} className={`ticket-cont ticket-cont-list ${item.created=='1 second ago' ? 'last' : ''}`} key={item.id}>
                                             <div className="l-side">
                                                 <div className="img-cont-small">
                                                     <Image src={box} width={100} height={100} alt="Loops" className="img-of-ticket" />
