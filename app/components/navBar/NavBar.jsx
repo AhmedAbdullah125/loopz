@@ -8,14 +8,12 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import search from '../../assets/search.svg'
 import Link from 'next/link'
 import { CounterContext } from '@/app/Context/CounterContext'
-import { API_BASE_URL } from '@/lib/apiConfig'
-import axios from 'axios'
-import Loading from '@/app/loading'
 import { ProfileDataContext, useProfileData } from '@/app/Context/ProfileContext'
-
+import profileImage from '../../assets/profile.svg'
 export default function NavBar() {
     let { cartCont, cartHandling } = useContext(CounterContext);
     let { data } = useContext(ProfileDataContext);
+    console.log(data);
 
     return (
         <header>
@@ -32,12 +30,16 @@ export default function NavBar() {
                                     <span className=' font16-400'>Deliver to</span>
                                     <i className="fa-solid fa-chevron-down" id='locatChevron'></i>
                                 </Link>
-                                <div className="choosed">
-                                    <span className='font12-400'>{data?.default_address.address} , {data?.default_address.city.name}</span>
-                                </div>
+                                {
+                                    data.default_address ?
+                                        <div className="choosed">
+                                            <span className='font12-400'>{data?.default_address?.address} , {data?.default_address?.city?.name}</span>
+                                        </div>
+                                        : null
+                                }
                             </div>
                             : null
-                        
+
                     }
 
                     <div className="input-cont">
@@ -64,8 +66,8 @@ export default function NavBar() {
                     </Link>
                     <Link href={data ? '/profile' : '/login'} className="nav-card">
                         {
-                            data ?
-                                <Image src={data.image} height={100} width={100} alt='loops'></Image> :
+                            data && data.image !== "https://loopz-q8.com/placeholders/logo.jpg" ?
+                                <Image src={data.image || profileImage} height={100} width={100} alt='loops'></Image> :
                                 <>
                                     <i className="fa-solid fa-user"></i>
                                     <p>Account</p>

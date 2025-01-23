@@ -28,7 +28,7 @@ export default function EditPage() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [country, setCountry] = useState(data?.country.id || 0);
-    const [selectedImage, setSelectedImage] = useState(data?.image || null);
+    const [selectedImage, setSelectedImage] = useState(data?.image==null|| data.image==undefined || data.image=="https://loopz-q8.com/placeholders/logo.jpg" ? UserPhoto : data.image);
     const [phoneNumber, setPhoneNumber] = useState(null);
     const [token, setToken] = useState(null);
     useEffect(() => {

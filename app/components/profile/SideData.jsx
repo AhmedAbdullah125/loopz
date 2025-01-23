@@ -25,7 +25,7 @@ export default function SideData() {
             <div className="user-x">
                 <div className="user-main-data">
                     <div className="img-cont">
-                        <Image src={data?.image || van} width={100} height={100} alt="van" className="img" />
+                        <Image src={!data?.image || data?.image=="https://loopz-q8.com/placeholders/logo.jpg"?van:data.image} width={100} height={100} alt="van" className="img" />
                     </div>
                     <div className="text">
                         <h3>{data?.name || 'Guest User'}</h3>
