@@ -4,6 +4,9 @@ import React, { useState, useEffect, useContext } from 'react'
 import { CounterContext } from '@/app/Context/CounterContext'
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ProfileDataContext } from '@/app/Context/ProfileContext';
+import { toast } from 'sonner';
 
 export default function CartBody() {
     let { cartCont, cartHandling } = useContext(CounterContext);
@@ -12,7 +15,9 @@ export default function CartBody() {
     let secBookmark = [...bookmarks];
     let totalPrice = 0;
     let [worningDisplay, setWorningDisplay] = useState(false);
+    let { data } = useContext(ProfileDataContext);
     let tax = 1;
+    const router = useRouter();
     for (let index = 0; index < cartCont.length; index++) {
         totalPrice += Number(cartCont[index].price) * Number(cartCont[index].Quantity);
 
@@ -115,13 +120,23 @@ export default function CartBody() {
                             <div className="head">Total</div>
                             <div className="value">{totalPrice + tax} K.D</div>
                         </div>
-                        <Link href={cartCont.length > 0 ? '/checkout' : "/cart"} className='addBtn'
+                        <button href={cartCont.length > 0 ? '/checkout' : "/cart"} className='addBtn'
                             onClick={() => {
-                                if (cartCont.length == 0) {
-                                    setWorningDisplay(true)
+                                if (data?.default_address) {
+                                    if (cartCont.length > 0) {
+                                        router.push('/checkout')
+                                    }
+                                    else {
+                                        setWorningDisplay(true)
+                                        toast.success('Please Add Products To Cart');
+                                    }
+                                }
+                                else {
+                                    router.push('/profile/add-address')
+                                    toast.warning('Please Add Address');
                                 }
                             }}
-                        >Checkout</Link>
+                        >Checkout</button>
                         <p className='worning' style={{ display: worningDisplay ? 'block' : 'none' }}>Please Add Products To Cart</p>
                     </div>
             }
