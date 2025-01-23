@@ -24,12 +24,15 @@ export const addAddress = async (data, setLoading) => {
         setLoading(false); // Reset loading state
         if (response.status === 200) {
             const message = response.data?.message || 'Profile updated successfully';
+
             toast(message, {
                 style: {
                     borderColor: "#28a745",
                     boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
                 },
             });
+            location.reload();
+            
         } else {
             const unexpectedMessage = response.data?.message || 'Unexpected response';
             toast(unexpectedMessage, {
