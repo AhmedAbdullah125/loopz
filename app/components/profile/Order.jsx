@@ -28,7 +28,6 @@ export default function Orders() {
     const searchParams = useSearchParams();
     const [id, setd] = useState(searchParams.get('id'));
     const router = useRouter();
-    console.log(id);
     useEffect(() => {
         const savedToken = localStorage.getItem('token');
         setToken(savedToken);
@@ -55,7 +54,6 @@ export default function Orders() {
         };
         getTickets();
     }, []);
-    console.log(data);
 
 
     const handleCancel = (id) => {

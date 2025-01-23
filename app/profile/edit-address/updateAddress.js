@@ -4,7 +4,6 @@ import { toast } from 'sonner';
 
 
 export const updateAddress = async (id,data, setLoading) => {
-    console.log(data);
     
     setLoading(true); // Set loading state
     const formData = new FormData();

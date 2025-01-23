@@ -38,7 +38,6 @@ export default function Feedback() {
 
     // Form submission handler
     function onSubmit(data) {
-        console.log(data);
 
         handleSubmit(data); // Call API request function
         form.reset(); // Reset form fields

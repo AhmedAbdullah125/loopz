@@ -58,7 +58,6 @@ export default function Orders() {
         };
         getTickets();
     }, []);
-    console.log(rentals);
     
     return (
         <>

@@ -22,7 +22,6 @@ export const logOut = async (API_BASE_URL, setLoading, router, toast) => {
 
         if (response.status === 200) {
             const message = response.data?.message || 'Logout successful';
-            console.log(message);
 
             // Success toast notification
             toast(message, {

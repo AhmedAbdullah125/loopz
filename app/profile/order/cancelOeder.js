@@ -7,7 +7,6 @@ export const cancelOrder = async (setLoading, id, router) => {
     const url = `${API_BASE_URL}/orders/canceled/${id}`; // API endpoint
     const formData = new FormData();
     formData.append('_method', 'PUT'); // Fallback if street is undefined
-    console.log(id);
 
     try {
         const response = await axios.post(url,formData, {
@@ -20,7 +19,6 @@ export const cancelOrder = async (setLoading, id, router) => {
 
         if (response.status === 200) {
             const message = response.data?.message || 'Order canceled successfully';
-            console.log(message);
 
             // Success toast notification
             toast(message, {

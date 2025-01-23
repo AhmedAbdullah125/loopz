@@ -56,8 +56,6 @@ export default function Ticket() {
         };
         getTickets();
     }, [])
-    console.log(data);
-
     return (
         <>
             {

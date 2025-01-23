@@ -72,7 +72,6 @@ export default function Address() {
         deleteAddress(setLoading, router, id, deletedAddress, setDeletedAddress);
 
     };
-    console.log(addresses);
 
     return (
         <div className='edit-profile-cont'>

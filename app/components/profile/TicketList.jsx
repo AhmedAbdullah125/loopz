@@ -60,8 +60,6 @@ export default function TicketList() {
         };
         getTickets();
     }, [])
-    console.log(ListData);
-
     return (
         <>
             {

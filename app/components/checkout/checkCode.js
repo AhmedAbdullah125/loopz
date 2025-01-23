@@ -3,9 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 
 
-export const checkCode = async (data, setLoading ,setDiscount) => {
-    console.log(data);
-
+export const checkCode = async (data, setLoading ,setDiscount ,setCode) => {
 
     setLoading(true); // Set loading state
     const formData = new FormData();
@@ -22,8 +20,8 @@ export const checkCode = async (data, setLoading ,setDiscount) => {
         
         if (response.status === 200) {
             const message = response.data?.data.voucher_percentage + " K.D Discount was applied" || 'Voucher applied successfully';
-            console.log(response);
             setDiscount(Number(response.data?.data.voucher_percentage)*-1);
+            setCode(data);
             toast(message, {
                 style: {
                     borderColor: "#28a745",

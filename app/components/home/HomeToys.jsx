@@ -132,7 +132,6 @@ export default function HomeToys(toys) {
 
                                                             for (let index = 0; index < cartCont.length; index++) {
                                                                 if (cartCont[index].id === singleProduct.id) {
-                                                                    console.log("Already added");
                                                                     setAddStatus('Already Added to cart');
                                                                     toast("Already Added to cart", {
                                                                         style: {
@@ -147,8 +146,6 @@ export default function HomeToys(toys) {
 
                                                             }
                                                             if (cartCont.includes(singleProduct)) {
-                                                                console.log("Already added");
-                                                                console.log(cartCont);
                                                                 toast("Already Added to cart", {
                                                                     style: {
                                                                         borderColor: "#28a745",
@@ -160,8 +157,6 @@ export default function HomeToys(toys) {
 
                                                             }
                                                             else {
-                                                                console.log(cartCont);
-
                                                                 setCart([...cart, singleProduct]);
                                                                 if (JSON.parse(localStorage.getItem('cart')) === null) {
                                                                     localStorage.setItem('cart', JSON.stringify([]));

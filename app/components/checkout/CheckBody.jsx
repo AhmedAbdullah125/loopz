@@ -11,27 +11,20 @@ import { checkCode } from './checkCode';
 import { API_BASE_URL } from '@/lib/apiConfig';
 import axios from 'axios';
 import Loading from '@/app/loading';
-import { AlertDialog, AlertDialogAction,AlertDialogCancel,AlertDialogContent,AlertDialogFooter,AlertDialogHeader,AlertDialogTitle,AlertDialogTrigger,} from "@/components/ui/alert-dialog"
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
+import { checkOut } from './checkOut';
 
 export default function CartBody() {
     let { data } = useContext(ProfileDataContext);
-    console.log(data);
-
     const [loading, setLoading] = useState(false);
-    // Accessing the cart context to retrieve cart data and cart handling functions
+    const [code , setCode] = useState('');
     let { cartCont, cartHandling } = useContext(CounterContext);
-
-    // Creating a shallow copy of the cart content for potential manipulations
-    let cartContCopy = [...cartCont];
-
     // Variable to store the total price of items in the cart
     let totalPrice = 0;
     for (let index = 0; index < cartCont.length; index++) {
         totalPrice += Number(cartCont[index].price) * Number(cartCont[index].Quantity);
     }
     let [discount, setDiscount] = useState(0);
-    console.log(discount);
-
     let [tax, setTax] = useState((totalPrice + discount) * .15);
     const [address, setAddress] = useState(data?.default_address);
     const [addresses, setAddesses] = useState([]);
@@ -39,16 +32,15 @@ export default function CartBody() {
     useEffect(() => {
         setTax((totalPrice + discount) * .15);
         setShipping(Number(address?.city.delivery_cost));
-    }, [totalPrice, discount , address]);
-    // Calculate the total price of items in the cart based on their quantity and price
-    // Payment methods available for the checkout process
+    }, [totalPrice, discount, address]);
     let methods = [{ id: 1, name: "Credit Card" }, { id: 2, name: "Wallet" }, { id: 3, name: "Cash on Delivery" }];
 
     // State to track the selected payment method
     let [selectedTab, setSelectedTab] = useState(1);
     const handleCheckCode = async (data) => {
-        await checkCode(data, setLoading, setDiscount);
+        await checkCode(data, setLoading, setDiscount ,setCode);
     };
+    
     const [token, setToken] = useState(localStorage.getItem('token'));
     useEffect(() => {
         // Retrieve token from localStorage
@@ -77,8 +69,9 @@ export default function CartBody() {
         }
         getAddresses();
     }, []);
-    console.log(addresses);
-
+    const handleCheckout = async () => {
+        await checkOut(cartCont, setLoading ,address.id , selectedTab ,code );
+    }
     return (
         <div className="cart-body">
             {/* Shipping Address Section */}
@@ -118,8 +111,8 @@ export default function CartBody() {
 
                                         {
                                             addresses.map((item, index) =>
-                                                <div className={`cart-products checkout-address ${item.id === address?.id ? "border-[#7A3ABF] border-2" : "" }`} key={index}
-                                                onClick={() => setAddress(item)}
+                                                <div className={`cart-products checkout-address ${item.id === address?.id ? "border-[#7A3ABF] border-2" : ""}`} key={index}
+                                                    onClick={() => setAddress(item)}
                                                 >
                                                     <div className="l-side items-startadd-details">
                                                         <div className="img-cont">
@@ -132,11 +125,10 @@ export default function CartBody() {
                                                             <h3>{item.street + " , " + item.city.name + " , " + item.governorate.name}</h3>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                             )
                                         }
-
                                     </AlertDialogHeader>
                                     <AlertDialogFooter className={"flex flex-col-reverse sm:flex-row sm:justify-center sm:space-x-2"}>
                                         {/* <AlertDialogCancel className="mt-2 sm:mt-0">Cancel</AlertDialogCancel> */}
@@ -326,7 +318,7 @@ export default function CartBody() {
                                 <div className="value">{totalPrice + tax + discount + ShippingPrice} K.D</div>
                             </div>
                             {/* Checkout Button */}
-                            <Link href={'/checkout'} className='addBtn'>Pay</Link>
+                            <button href={'/checkout'} className='addBtn' onClick={() => { handleCheckout(); }}>Pay</button>
                         </div>
                     </>
             }

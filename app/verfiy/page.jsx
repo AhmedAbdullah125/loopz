@@ -47,7 +47,6 @@ export default function Verfiy() {
     const sendPostRequest = async (data) => {
         setLoading(true); // Set loading state
         const url = `${API_BASE_URL}/auth/login`; // API endpoint
-        console.log(data); // Log the input data for debugging
 
         // Prepare the request payload
         const queryParams = { phone: data.phone };
@@ -60,7 +59,6 @@ export default function Verfiy() {
         })
             .then(response => {
                 setLoading(false); // Reset loading state
-                console.log(response); // Log the response for debugging
 
                 // Get message from response
                 const message = response.data?.data || 'Operation successful';
@@ -90,8 +88,6 @@ export default function Verfiy() {
                 setLoading(false); // Reset loading state
 
                 // Log the error for debugging
-                console.log(error);
-
                 // Extract error message from response
                 const errorMessage = error?.response?.data.msg || error.message || 'An unknown error occurred';
 
@@ -113,7 +109,6 @@ export default function Verfiy() {
 
     // Form submission handler
     function onSubmit(data) {
-        console.log(data); // Log form data for debugging
         // sendPostRequest(data); // Call API request function
         form.reset(); // Reset form fields
     }

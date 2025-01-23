@@ -4,8 +4,6 @@ import { toast } from 'sonner';
 
 
 export const addAddress = async (data, setLoading) => {
-    console.log(data);
-
     setLoading(true); // Set loading state
     const formData = new FormData();
     formData.append('city_id', Number(data.city) || '');

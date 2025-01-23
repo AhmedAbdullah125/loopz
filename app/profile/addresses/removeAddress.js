@@ -17,7 +17,6 @@ export const deleteAddress = async (setLoading, router, id, deletedAddress, setD
 
         if (response.status === 200) {
             const message = response.data?.message || 'Address deleted successfully';
-            console.log(message);
 
             // Success toast notification
             toast(message, {

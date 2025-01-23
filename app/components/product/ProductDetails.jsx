@@ -6,10 +6,6 @@ import Image from 'next/image';
 export default function ProductDetails({ product, title }) {
     let [productCount, setProductCount] = useState(1);
     let [display, setDisplay] = useState("none");
-    console.log(title);
-
-
-    // console.log(product.category.type);
 
     return (
         <div className={`ProductDetails  col col-md-6 ${title == "Ticket" ? "ticket-productDetails" : ""}`}>

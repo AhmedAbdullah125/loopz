@@ -79,8 +79,6 @@ export default function Address() {
         getAddress();
         getGovernorates();
     }, [token, id]);
-    console.log(governorates);
-    console.log(data);
     const form = useForm({
         resolver: zodResolver(
             z.object({
