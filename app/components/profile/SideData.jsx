@@ -16,38 +16,39 @@ import { usePathname } from 'next/navigation';
 import { ProfileDataContext } from '@/app/Context/ProfileContext';
 
 export default function SideData() {
-    let { data } = useContext(ProfileDataContext);   
+    let { data } = useContext(ProfileDataContext);
     const pathname = usePathname();
     const [display, setDisplay] = useState(true);
+    console.log(data);
 
     return (
         <div className="profile-sideBar">
             <div className="user-x">
                 <div className="user-main-data">
                     <div className="img-cont">
-                        <Image src={!data?.image || data?.image=="https://loopz-q8.com/placeholders/logo.jpg"?van:data.image} width={100} height={100} alt="van" className="img" />
+                        <Image src={!data?.image || data?.image == "https://loopz-q8.com/placeholders/logo.jpg" ? van : data.image} width={100} height={100} alt="van" className="img" />
                     </div>
                     <div className="text">
                         <h3>{data?.name || 'Guest User'}</h3>
-                        <h4>{data?.phone || 'N/A'}</h4>
+                        <h4>{data?.country.code + " " + data?.phone || 'N/A'}</h4>
                     </div>
                 </div>
-                <i className={`fa-solid ${display?"fa-x":"fa-bars"} tooggllee`}onClick={() => setDisplay(!display)}></i>
+                <i className={`fa-solid ${display ? "fa-x" : "fa-bars"} tooggllee`} onClick={() => setDisplay(!display)}></i>
             </div>
             <div className="linkss" style={{ display: display ? 'block' : 'none' }}>
-            <div className="wallet-cont">
-                <div className="wallet">
-                    <div className="wal-det">
-                        <Image src={wallet} alt="wallet" className="wal-img" />
-                        <h4>Wallet Balance</h4>
-                    </div>
-                    <div className="money">
-                        <h3>
-                            <span>{data?.balance || 0}</span> K.D
-                        </h3>
+                <div className="wallet-cont">
+                    <div className="wallet">
+                        <div className="wal-det">
+                            <Image src={wallet} alt="wallet" className="wal-img" />
+                            <h4>Wallet Balance</h4>
+                        </div>
+                        <div className="money">
+                            <h3>
+                                <span>{data?.balance || 0}</span> K.D
+                            </h3>
+                        </div>
                     </div>
                 </div>
-            </div>
                 <div className={`links-cont ${pathname === '/profile/edit' ? 'links-cont-active' : ''} `}>
                     <div className="link">
                         <div className="img">

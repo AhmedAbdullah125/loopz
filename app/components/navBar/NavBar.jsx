@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { CounterContext } from '@/app/Context/CounterContext'
 import { ProfileDataContext, useProfileData } from '@/app/Context/ProfileContext'
 import profileImage from '../../assets/profile.svg'
+import { toast } from 'sonner'
 export default function NavBar() {
     let { cartCont, cartHandling } = useContext(CounterContext);
     let { data } = useContext(ProfileDataContext);
@@ -75,10 +76,27 @@ export default function NavBar() {
                         }
                     </Link>
                     <div className="cart-balance">
-                        <Link href={'/cart'} className="cart">
-                            <i className="fa-solid fa-cart-shopping"></i>
-                            <span>{cartCont?.length}</span>
-                        </Link>
+                        {
+                            cartCont.length > 0 ?
+                            <Link href='/cart' className="cart">
+                                <i className="fa-solid fa-cart-shopping"></i>
+                                <span>{cartCont?.length}</span>
+                            </Link>
+                            :
+                            <button  className="cart" onClick={() => {
+                               
+                                    toast("Your cart is empty", {
+                                        style: {
+                                            borderColor: "#dc3545",
+                                            boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)'
+                                        },
+                                    });
+                            }}>
+                                <i className="fa-solid fa-cart-shopping"></i>
+                                <span>{cartCont?.length}</span>
+                            </button>
+                        }
+                        
                         <div className="balance">
                             <span>{data?.balance || 0}</span>
                             <span>KD</span>

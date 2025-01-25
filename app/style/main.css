@@ -2985,7 +2985,8 @@ header .cart-balance {
 }
 @media screen and (max-width: 767px) {
   .profile-r-side .edit-address-form {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 }
 .profile-r-side .edit-address-form input, .profile-r-side .edit-address-form select, .profile-r-side .edit-address-form button {

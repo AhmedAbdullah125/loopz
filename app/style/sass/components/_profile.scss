@@ -539,7 +539,9 @@
         margin-bottom: 20px;
         
         @media screen and (max-width: 767px) {
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
+            // grid-template-columns: 1fr;
 
         }
         

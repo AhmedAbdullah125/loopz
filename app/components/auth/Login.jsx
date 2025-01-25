@@ -17,28 +17,43 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 
+// Import UI components for form handling
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+
 import Image from 'next/image'; // For optimized image rendering in Next.js
-import { useState } from 'react'; // State management hook
+import { useEffect, useState } from 'react'; // State management hook
 import Link from 'next/link'; // Link component for navigation
 import PhoneInput from 'react-phone-number-input'; // Phone input component
 import 'react-phone-number-input/style.css'; // Styles for phone input component
 import { API_BASE_URL } from '@/lib/apiConfig'; // Base URL for API requests
 import { toast } from 'sonner'; // Toast notification library
 import axios from 'axios'; // HTTP client for API requests
+import { Input } from '@/components/ui/input';
 
-export default function Login({step, setStep , setPhone}) {
+export default function Login({ step, setStep, setPhone }) {
     // State to manage the phone number input
+    const [country, setCountry] = useState(null);
+    const router = useRouter();
+    const [countryNumberLength, setCountryNumberLength] = useState(0)
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false); // Loading state for API requests
+    const [error, setError] = useState(null); // Error state
+    const [phoneErrorDisplay, setPhoneErrorDisplay] = useState("none")
     const [phoneNumber, setPhoneNumber] = useState(null);
     // Zod schema for validating the phone number input
     const FormSchema = z.object({
         phone: z.string()
-            .min(13, { message: 'Phone number must be at least 13 characters.' })
+            .min(8, { message: 'Phone number must be at least 8 characters.' })
             .regex(/^\+?\d+$/, { message: 'Phone number must start with a plus sign and contain only digits.' }),
     });
     // Additional state variables for managing API call status
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false); // Loading state for API requests
-    const [error, setError] = useState(null); // Error state
 
     // Function to handle API POST requests
     const sendPostRequest = async (data) => {
@@ -98,7 +113,40 @@ export default function Login({step, setStep , setPhone}) {
                 });
             });
     };
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            router.back();
+        }
+        setLoading(true)
+        const getTickets = async () => {
+            try {
+                const response = await axios.get(API_BASE_URL + `/countries`, {
+                    headers: {
+                        'Accept-Language': 'en',
+                    },
+                });
+                let data = response.data.data;
+                setData(data)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+                throw new Error('Could not get data');
+                setLoading(false)
+            }
+        };
+        getTickets();
+    }, []);
 
+    useEffect(() => {
+        if (data) {
+            for (let index = 0; index < data.length; index++) {
+                if (data[index].id == country) {
+                    setCountryNumberLength(data[index].phone_length)
+                    console.log(countryNumberLength);
+                }
+            }
+        }
+    }, [country, data]);
     // Initialize React Hook Form with Zod validation schema
     const form = useForm({
         resolver: zodResolver(FormSchema), // Use Zod schema for validation
@@ -130,24 +178,78 @@ export default function Login({step, setStep , setPhone}) {
                                     name="phone"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-blackText text-xl font-extrabold">
-                                                Phone Number
-                                            </FormLabel>
+                                            <FormLabel className="text-blackText text-xl font-extrabold"> Phone Number </FormLabel>
                                             <FormControl>
                                                 {/* Phone input component */}
-                                                <PhoneInput
-                                                    placeholder="+965 00000000"
-                                                    value={phoneNumber || null}
-                                                    onChange={setPhoneNumber}
-                                                    defaultCountry="KW"
-                                                    className="phoneInput-cont"
-                                                    {...field}
-                                                />
+                                                <div className="input-of-mobile-num">
+                                                    <div className="country-select">
+                                                        <FormField
+                                                            control={form.control}
+                                                            name="country"
+                                                            className="country-select"
+                                                            render={({ field }) => (
+                                                                <FormItem>
+                                                                    {/* <FormLabel className="text-blackText text-xl font-extrabold"> Phone Number </FormLabel> */}
+                                                                    <FormControl>
+                                                                        {/* Phone input component */}
+                                                                        <Select
+                                                                            value={field.value}
+                                                                            onValueChange={(value) => {
+                                                                                // field.onChange(value);
+                                                                                // setSelectedGovernorate(value);
+                                                                                setCountry(value);
+                                                                                form.setValue('country', value); // Reset city
+                                                                            }}
+                                                                        >
+                                                                            <SelectTrigger className="w-28 pe-4 border-e p-0 border-none shadow-none border-black/10 h-[44px] ">
+                                                                                <SelectValue placeholder="Country" />
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                <SelectGroup>
+                                                                                    {
+                                                                                        data?.map((item, index) => (
+                                                                                            <SelectItem value={String(item.id)} key={index}>
+                                                                                                <div className="select-country-item-cont">
+                                                                                                    {/* <span>{item.name}</span> */}
+                                                                                                    <Image src={item.image} alt={item.name} width={20} height={20} className='w-7 h-4' />
+                                                                                                    <span>{item.code}</span>
+                                                                                                </div>
+                                                                                            </SelectItem>
+                                                                                        ))
+                                                                                    }
+                                                                                </SelectGroup>
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                    </FormControl>
+                                                                    <FormMessage /> {/* Validation error message */}
+                                                                </FormItem>
+                                                            )} />
+                                                    </div>
+                                                    <Input type="tel" className="ps-12" placeholder="Enter Your Phone" maxLength={countryNumberLength} {...field} onKeyDown={(e) => {
+                                                        if (countryNumberLength === 0) {
+                                                            e.preventDefault();
+                                                            toast('Please select country first', {
+                                                                style: {
+                                                                    borderColor: "#dc3545",
+                                                                    boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)'
+                                                                },
+                                                            });
+                                                        }
+                                                        else {
+                                                            if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4' || e.key === '5' || e.key === '6' || e.key === '7' || e.key === '8' || e.key === '9' || e.key === '0' || e.key === 'Backspace' || e.key === 'Delete') {   // Allow digits (0-9)
+                                                                setPhoneErrorDisplay('none');
+                                                                return true;
+                                                            } else {
+                                                                e.preventDefault(); // Prevent non-digit input
+                                                                setPhoneErrorDisplay('block');
+                                                            }
+                                                        }
+                                                    }} />
+                                                </div>
                                             </FormControl>
                                             <FormMessage /> {/* Validation error message */}
                                         </FormItem>
-                                    )}
-                                />
+                                    )} />
                                 {/* Submit button */}
                                 <Button type="submit" className="submit-btn" disabled={loading}>
                                     {loading ? 'Loading...' : 'Login'}

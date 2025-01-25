@@ -27,7 +27,7 @@ export const deleteAddress = async (setLoading, router, id, deletedAddress, setD
             });
             router.refresh();
             setDeletedAddress([...deletedAddress, id]);
-            // location.reload();
+            location.reload();
             return id;
         } else {
             const unexpectedMessage = response.data?.message || 'Unexpected response';
