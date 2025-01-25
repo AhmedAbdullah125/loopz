@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 
 
-export const checkOut = async (cartCont, setLoading, address, selectedTab, code , cartHandling ,router) => {
+export const checkOut = async (cartCont, setLoading, address, selectedTab, code, cartHandling, router) => {
 
     console.log(cartCont);
     console.log(selectedTab);
@@ -36,18 +36,36 @@ export const checkOut = async (cartCont, setLoading, address, selectedTab, code 
 
         });
         setLoading(false); // Reset loading state
+        console.log(response);
 
         if (response.status === 200) {
-            const message = response.data?.data.status_text || 'Order Submited Successfully';
-            toast(message, {
-                style: {
-                    borderColor: "#28a745",
-                    boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
-                },
-            });
-            localStorage.setItem('cart', JSON.stringify([]));
-            cartHandling([]);
-            router.push('/profile/orders');
+            console.log(selectedTab);
+            
+            if (selectedTab == 1) {
+                const message = response.data?.data.status_text || 'Order Submited Successfully';
+                toast(message, {
+                    style: {
+                        borderColor: "#28a745",
+                        boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
+                    },
+                });
+                localStorage.setItem('cart', JSON.stringify([]));
+                cartHandling([]);
+                router.push(response.data.data.payment_url);
+            }
+            else {
+                const message = response.data?.data.status_text || 'Order Submited Successfully';
+                toast(message, {
+                    style: {
+                        borderColor: "#28a745",
+                        boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
+                    },
+                });
+                localStorage.setItem('cart', JSON.stringify([]));
+                cartHandling([]);
+                router.push('/profile/orders');
+            }
+
         } else {
             const unexpectedMessage = response.data?.message.status_text || 'Unexpected response';
             toast(unexpectedMessage, {

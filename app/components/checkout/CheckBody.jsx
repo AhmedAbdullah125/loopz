@@ -45,6 +45,9 @@ export default function CartBody() {
     const [token, setToken] = useState(localStorage.getItem('token'));
     useEffect(() => {
         // Retrieve token from localStorage
+        if (cartCont.length === 0) {
+            router.push('/profile/orders')
+        }
         const savedToken = localStorage.getItem('token');
         setToken(savedToken);
         if (!savedToken) {

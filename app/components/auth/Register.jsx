@@ -8,6 +8,14 @@ import logo from '../../assets/loops.svg'; // Import the logo image
 
 // Import UI components for form handling
 import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
     Form,
     FormField,
     FormItem,
@@ -17,30 +25,72 @@ import {
 } from '@/components/ui/form';
 
 import Image from 'next/image'; // For optimized image rendering in Next.js
-import { use, useEffect, useState } from 'react'; // State management hook
+import { useEffect, useState } from 'react'; // State management hook
 import Link from 'next/link'; // Link component for navigation
-import PhoneInput from 'react-phone-number-input'; // Phone input component
 import 'react-phone-number-input/style.css'; // Styles for phone input component
 import { API_BASE_URL } from '@/lib/apiConfig'; // Base URL for API requests
 import { toast } from 'sonner'; // Toast notification library
 import axios from 'axios'; // HTTP client for API requests
 import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
+import Loading from '@/app/loading';
 
-export default function Register({step, setStep , setPhone}) {
+export default function Register({ step, setStep, setPhone }) {
+    const [country, setCountry] = useState(null);
     const router = useRouter();
+    const [countryNumberLength, setCountryNumberLength] = useState(0)
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false); // Loading state for API requests
+    const [error, setError] = useState(null); // Error state
+    const [phoneErrorDisplay, setPhoneErrorDisplay] = useState("none")
     useEffect(() => {
         if (localStorage.getItem('token')) {
             router.back();
         }
-    }, [])
+        setLoading(true)
+        const getTickets = async () => {
+            try {
+                const response = await axios.get(API_BASE_URL + `/countries`, {
+                    headers: {
+                        'Accept-Language': 'en',
+                    },
+                });
+                let data = response.data.data;
+                setData(data)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+                throw new Error('Could not get data');
+                setLoading(false)
+            }
+        };
+        getTickets();
+    }, []);
+
+    useEffect(() => {
+        if (data) {
+            for (let index = 0; index < data.length; index++) {
+                if (data[index].id == country) {
+                    setCountryNumberLength(data[index].phone_length)
+                    console.log(countryNumberLength);
+                }
+            }
+        }
+    }, [country, data]);
+
+    console.log(data);
+
+
+
+
+
     // State to manage the phone number input
     const [phoneNumber, setPhoneNumber] = useState(null);
 
     // Zod schema for validating the phone number input
     const FormSchema = z.object({
         phone: z.string()
-            .min(13, { message: 'Phone number must be at least 13 characters.' })
+            .min(8, { message: 'Phone number must be at least 8 characters.' })
             .regex(/^\+?\d+$/, { message: 'Phone number must start with a plus sign and contain only digits.' }),
         fullName: z.string().min(2, {
             message: 'Please enter your name' || 'name must be at least 2 characters.',
@@ -49,12 +99,13 @@ export default function Register({step, setStep , setPhone}) {
             message: 'Please enter a valid email' || 'Invalid email address',
         }),
 
+        country: z.string().min(1, {
+            message: 'Please select a country' || 'name must be at least 2 characters.',
+        }),
     });
 
     // Additional state variables for managing API call status
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false); // Loading state for API requests
-    const [error, setError] = useState(null); // Error state
+
 
     // Function to handle API POST requests
     const sendPostRequest = async (data) => {
@@ -66,7 +117,7 @@ export default function Register({step, setStep , setPhone}) {
             phone: data.phone,
             name: data.fullName,
             email: data.email,
-            country_id: 1,
+            country_id: Number(data.country),
 
         };
 
@@ -130,6 +181,8 @@ export default function Register({step, setStep , setPhone}) {
 
     // Form submission handler
     function onSubmit(data) {
+        console.log(data);
+
         sendPostRequest(data); // Call API request function
     }
 
@@ -140,70 +193,168 @@ export default function Register({step, setStep , setPhone}) {
                     {/* Display the logo */}
                     <Image src={logo} alt='loopz' className='logo'></Image>
 
-                    <div className='login-form'>
-                        <h2>Create Account</h2>
-                        <h3 className='max-w-[225px] mx-auto'>Please complete following data to create your account</h3>
+                    {
+                        loading ? <Loading /> :
+                            <div className='login-form'>
+                                <h2>Create Account</h2>
+                                <h3 className='max-w-[225px] mx-auto'>Please complete following data to create your account</h3>
 
-                        {/* Form component */}
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)}>
-                                {/* Phone number input field */}
-                                <FormField
-                                    control={form.control}
-                                    name="phone"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-blackText text-xl font-extrabold"> Phone Number </FormLabel>
-                                            <FormControl>
-                                                {/* Phone input component */}
-                                                <PhoneInput
-                                                    placeholder="+965 00000000"
-                                                    value={phoneNumber || null}
-                                                    onChange={setPhoneNumber}
-                                                    defaultCountry="KW"
-                                                    className="phoneInput-cont"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage /> {/* Validation error message */}
-                                        </FormItem>
-                                    )} />
-                                <FormField control={form.control} name="fullName" render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-blackText text-xl font-extrabold"> Your Name </FormLabel>
-                                        <FormControl>
-                                            <Input type="text" placeholder="Enter Your Name" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                                />
-                                <FormField control={form.control} name="email" render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-blackText text-xl font-extrabold"> Your E-mail </FormLabel>
-                                        <FormControl>
-                                            <Input type="email" placeholder="Enter Your E-mail" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                                />
+                                {/* Form component */}
+                                <Form {...form}>
+                                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                                        {/* Phone number input field */}
 
-                                {/* Submit button */}
-                                <Button type="submit" className="submit-btn" disabled={loading}>
-                                    {loading ? 'Loading...' : 'Create Account'}
-                                </Button>
-                            </form>
-                        </Form>
 
-                        {/* Link to registration page */}
-                        <div className="have-account">
-                            <span>Already have account? </span>
-                            <Link href="/login">Login</Link>
-                        </div>
-                    </div>
+                                        <FormField
+                                            control={form.control}
+                                            name="phone"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="text-blackText text-xl font-extrabold"> Phone Number </FormLabel>
+                                                    <FormControl>
+                                                        {/* Phone input component */}
+                                                        <div className="input-of-mobile-num">
+                                                            <div className="country-select">
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="country"
+                                                                    className="country-select"
+                                                                    render={({ field }) => (
+                                                                        <FormItem>
+                                                                            {/* <FormLabel className="text-blackText text-xl font-extrabold"> Phone Number </FormLabel> */}
+                                                                            <FormControl>
+                                                                                {/* Phone input component */}
+                                                                                <Select
+                                                                                    value={field.value}
+                                                                                    onValueChange={(value) => {
+                                                                                        // field.onChange(value);
+                                                                                        // setSelectedGovernorate(value);
+                                                                                        setCountry(value);
+                                                                                        form.setValue('country', value); // Reset city
+                                                                                    }}
+                                                                                >
+                                                                                    <SelectTrigger className="w-28 pe-4 border-e p-0 border-none shadow-none border-black/10 h-[44px] ">
+                                                                                        <SelectValue placeholder="Country" />
+                                                                                    </SelectTrigger>
+                                                                                    <SelectContent>
+                                                                                        <SelectGroup>
+                                                                                            {
+                                                                                                data?.map((item, index) => (
+                                                                                                    <SelectItem value={String(item.id)} key={index}>
+                                                                                                        <div className="select-country-item-cont">
+                                                                                                            {/* <span>{item.name}</span> */}
+                                                                                                            <Image src={item.image} alt={item.name} width={20} height={20} className='w-7 h-4' />
+                                                                                                            <span>{item.code}</span>
+                                                                                                        </div>
+                                                                                                    </SelectItem>
+                                                                                                ))
+                                                                                            }
+                                                                                        </SelectGroup>
+                                                                                    </SelectContent>
+                                                                                </Select>
+                                                                            </FormControl>
+                                                                            <FormMessage /> {/* Validation error message */}
+                                                                        </FormItem>
+                                                                    )} />
+                                                            </div>
+                                                            <Input type="tel" className="ps-12" placeholder="Enter Your Phone" maxLength={countryNumberLength} {...field} onKeyDown={(e) => {
+                                                                if (countryNumberLength === 0) {
+                                                                    e.preventDefault();
+                                                                    toast('Please select country first', {
+                                                                        style: {
+                                                                            borderColor: "#dc3545",
+                                                                            boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)'
+                                                                        },
+                                                                    });
+                                                                }
+                                                                else {
+                                                                    if (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4' || e.key === '5' || e.key === '6' || e.key === '7' || e.key === '8' || e.key === '9' || e.key === '0' || e.key === 'Backspace' || e.key === 'Delete') {   // Allow digits (0-9)
+                                                                        setPhoneErrorDisplay('none');
+                                                                        return true;
+                                                                    } else {
+                                                                        e.preventDefault(); // Prevent non-digit input
+                                                                        setPhoneErrorDisplay('block');
+                                                                    }
+                                                                }
+                                                            }} />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage /> {/* Validation error message */}
+                                                </FormItem>
+                                            )} />
+
+                                        <p className='text-[0.8rem] font-medium text-destructive' style={{ display: phoneErrorDisplay }}>Only digits are allowed</p>
+                                        <FormField control={form.control} name="fullName" render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-blackText text-xl font-extrabold"> Your Name </FormLabel>
+                                                <FormControl>
+                                                    <Input type="text" placeholder="Enter Your Name" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                        />
+                                        <FormField control={form.control} name="email" render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-blackText text-xl font-extrabold"> Your E-mail </FormLabel>
+                                                <FormControl>
+                                                    <Input type="email" placeholder="Enter Your E-mail" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                        />
+
+                                        {/* Submit button */}
+                                        <Button type="submit" className="submit-btn" disabled={loading}>
+                                            {loading ? 'Loading...' : 'Create Account'}
+                                        </Button>
+                                    </form>
+                                </Form>
+
+                                {/* Link to registration page */}
+                                <div className="have-account">
+                                    <span>Already have account? </span>
+                                    <Link href="/login">Login</Link>
+                                </div>
+                            </div>
+                    }
                 </div>
             </div>
         </div>
     );
 }
+
+
+
+{/* <DropdownMenu className="drop-menu-of-country">
+<DropdownMenuTrigger asChild>
+    <div className="drop-triget-ies">
+        {
+            country ? <Image src={country.image} alt={country.name} width={20} height={20} /> :
+                <i className="fa-solid fa-globe"></i>
+        }
+        <i className="fa-solid fa-chevron-down"></i>
+    </div>
+</DropdownMenuTrigger>
+<DropdownMenuContent className="w-12">
+    <DropdownMenuGroup>
+        {
+            data?.map((country) => (
+                <DropdownMenuItem key={country.id} onClick={() => {
+                    setCountry(country)
+                    console.log(country);
+
+                }}>
+                    {
+                        country.name
+                    }
+                    <DropdownMenuShortcut>
+                        <Image src={country.image} alt={country.name} width={20} height={20} />
+                    </DropdownMenuShortcut>
+                </DropdownMenuItem>
+            ))
+        }
+    </DropdownMenuGroup>
+</DropdownMenuContent> 
+</DropdownMenu>*/}

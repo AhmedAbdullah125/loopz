@@ -3172,6 +3172,50 @@ header .cart-balance {
   }
 }
 
+.elect-trigger-country {
+  width: 120px;
+}
+
+.select-country-item-cont {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  justify-content: space-between;
+  width: 75px;
+  padding-inline-start: 0px;
+}
+.select-country-item-cont img {
+  width: 28px;
+  height: 16px;
+  border-radius: 2px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.input-of-mobile-num {
+  position: relative;
+}
+.input-of-mobile-num .country-select {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+}
+.input-of-mobile-num option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.input-of-mobile-num .ps-12 {
+  padding-inline-start: 130px !important;
+}
+.input-of-mobile-num .border-none {
+  border: none !important;
+  border-inline-end: 1px solid rgba(0, 0, 0, 0.1) !important;
+  padding-inline-start: 17px !important;
+  border-radius: 0 !important;
+}
+
 .contact-content {
   margin: 50px auto;
   width: 100%;

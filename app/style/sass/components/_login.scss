@@ -144,3 +144,44 @@
         }
     }
 }
+.elect-trigger-country{
+    width: 120px;
+}
+.select-country-item-cont{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    justify-content: space-between;
+    width: 75px;
+    padding-inline-start: 0px;
+    img{
+        width: 28px;
+        height: 16px;
+        border-radius: 2px;
+        object-fit: cover;
+    }
+}
+.input-of-mobile-num{
+    position: relative;
+    .country-select{
+        position: absolute;
+        top: 0;
+        inset-inline-start: 0;
+
+    }
+    option{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .ps-12{
+        padding-inline-start: 130px !important;
+    }
+    .border-none{
+        border: none !important;
+        border-inline-end: 1px solid rgba(0, 0, 0, 0.1) !important;
+        padding-inline-start: 17px !important;
+        border-radius: 0 !important;
+    }
+}

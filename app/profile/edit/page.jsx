@@ -31,6 +31,7 @@ export default function EditPage() {
     const [selectedImage, setSelectedImage] = useState(data?.image == null || data.image == undefined || data.image == "https://loopz-q8.com/placeholders/logo.jpg" ? UserPhoto : data.image);
     const [phoneNumber, setPhoneNumber] = useState(null);
     const [token, setToken] = useState(null);
+    
     useEffect(() => {
         // Retrieve token from localStorage
         const savedToken = localStorage.getItem('token');
@@ -47,8 +48,8 @@ export default function EditPage() {
             message: 'Please enter a valid email' || 'Invalid email address',
         }),
 
-        phone: z.string().min(13, {
-            message: 'Phone number must be 11 characters.',
+        phone: z.string().min(8, {
+            message: 'Phone number must be 8 characters.',
         }).regex(/^\+?\d+$/, {
             message:
                 'Phone number must start with a plus sign and contain only digits.',
@@ -159,7 +160,7 @@ export default function EditPage() {
                                     name="email"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>  E-mail  </FormLabel>
+                                            <FormLabel>E-mail</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Enter your address"  {...field} />
                                             </FormControl>

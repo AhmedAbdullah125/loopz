@@ -13,6 +13,7 @@ export default function CartBody() {
     let cartContCopy = [...cartCont];
     let [bookmarks, setBookmarks] = useState([]);
     let secBookmark = [...bookmarks];
+
     let totalPrice = 0;
     let [worningDisplay, setWorningDisplay] = useState(false);
     let { data } = useContext(ProfileDataContext);
