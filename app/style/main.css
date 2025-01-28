@@ -665,6 +665,7 @@ header .cart-balance {
   border-radius: 20px;
   -o-object-fit: cover;
      object-fit: cover;
+  cursor: pointer;
 }
 .home-slider .slide-img video {
   width: 100%;
