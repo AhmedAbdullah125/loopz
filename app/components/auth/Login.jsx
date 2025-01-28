@@ -30,12 +30,12 @@ import {
 import Image from 'next/image'; // For optimized image rendering in Next.js
 import { useEffect, useState } from 'react'; // State management hook
 import Link from 'next/link'; // Link component for navigation
-import PhoneInput from 'react-phone-number-input'; // Phone input component
 import 'react-phone-number-input/style.css'; // Styles for phone input component
 import { API_BASE_URL } from '@/lib/apiConfig'; // Base URL for API requests
 import { toast } from 'sonner'; // Toast notification library
 import axios from 'axios'; // HTTP client for API requests
 import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
 
 export default function Login({ step, setStep, setPhone }) {
     // State to manage the phone number input
@@ -44,9 +44,6 @@ export default function Login({ step, setStep, setPhone }) {
     const [countryNumberLength, setCountryNumberLength] = useState(0)
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false); // Loading state for API requests
-    const [error, setError] = useState(null); // Error state
-    const [phoneErrorDisplay, setPhoneErrorDisplay] = useState("none")
-    const [phoneNumber, setPhoneNumber] = useState(null);
     // Zod schema for validating the phone number input
     const FormSchema = z.object({
         phone: z.string()
