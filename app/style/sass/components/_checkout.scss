@@ -268,3 +268,22 @@
         }
     }
 }
+.date-cont{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    border-radius: 7px;
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    @media screen and (max-width: 767px) {
+        padding: 10px 10px;
+    }
+    h3{
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 0;
+        min-width: 100px;
+    }
+}

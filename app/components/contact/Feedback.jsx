@@ -20,9 +20,7 @@ export default function Feedback() {
         rate: z .string() .refine(value => ["1", "2", "3", "4", "5"].includes(value), { message: "Please select your rating", }),
     });
     // Additional state variables for managing API call status
-    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false); // Loading state for API requests
-    const [error, setError] = useState(null); // Error state
     const [rate, setRate] = useState(0);
     // Initialize React Hook Form with Zod validation schema
     const form = useForm({

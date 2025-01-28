@@ -9,14 +9,15 @@ import { toast } from 'sonner';
  */
 export const review = async (API_BASE_URL, data, setLoading) => {
     setLoading(true); // Set loading state
-    const url = `${API_BASE_URL}/reviews`; // API endpoint    
+    const url = `${API_BASE_URL}/reviews`; // API endpoint   
+     
     try {
         // Prepare the request payload
         const queryParams = {
-            model_id: 1,
+            model_id: data.id,
             comment: data.feedback,
             rate: data.rate,
-            type: 'rentals',
+            type: data.type,
         };
 
         const response = await axios({

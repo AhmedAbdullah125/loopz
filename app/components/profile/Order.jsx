@@ -9,6 +9,17 @@ import wallet from '../../assets/profile/wallet.png';
 import card from '../../assets/profile/card.svg';
 import cash from '../../assets/profile/cash.avif';
 import marker from '../../assets/marker.svg';
+import { Button } from '@/components/ui/button'; // Button UI component
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod'; // For form validation using Zod schema
+import { z } from 'zod'; // Zod library for schema-based validation
+import { Form, FormField, FormItem, FormControl, FormMessage, } from '@/components/ui/form';
+
+import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
+import { Label } from '@radix-ui/react-label';
+
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -20,6 +31,8 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { cancelOrder } from "../../profile/order/cancelOeder";
+import Link from "next/link";
+import { review } from "../contact/reviews";
 
 export default function Orders() {
     const [loading, setLoading] = useState(true);
@@ -28,6 +41,7 @@ export default function Orders() {
     const searchParams = useSearchParams();
     const [id, setd] = useState(searchParams.get('id'));
     const router = useRouter();
+    const [reviewedItem, setReviewedItem] = useState(null);
     useEffect(() => {
         const savedToken = localStorage.getItem('token');
         setToken(savedToken);
@@ -55,11 +69,43 @@ export default function Orders() {
         getTickets();
     }, []);
 
-
     const handleCancel = (id) => {
         cancelOrder(setLoading, id, router);
-
     };
+
+
+    const FormSchema = z.object({
+        feedback: z.string().min(10, { message: 'Phone number must be at least 10 characters.' }),
+        rate: z.string().refine(value => ["1", "2", "3", "4", "5"].includes(value), { message: "Please select your rating", }),
+    });
+    // Additional state variables for managing API call status
+
+    const [rate, setRate] = useState(0);
+    // Initialize React Hook Form with Zod validation schema
+    const form = useForm({
+        resolver: zodResolver(FormSchema), // Use Zod schema for validation
+        defaultValues: {
+            feedback: '',
+            rate: String(rate),
+
+        }, // Default form values
+    });
+    const handleSubmit = async (data) => {
+
+        await review(API_BASE_URL, data, setLoading);
+    };
+
+    // Form submission handler
+    function onSubmit(data) {
+        const allData = { id: reviewedItem, type: "toys", rate: Number(data.rate), feedback: data.feedback };
+        handleSubmit(allData); // Call API request function
+        form.reset(); // Reset form fields
+    }
+
+
+
+
+
 
     return (
         <>
@@ -121,9 +167,95 @@ export default function Orders() {
                                                     <h4>Qnt : <span className="heavy">{item.quantity}</span></h4>
                                                 </div>
                                             </div>
-                                            <div className="r-side">
-                                                <button className="cancel-order-btn review-btn" >Add Review</button>
-                                            </div>
+                                            {
+                                                data?.can_review ?
+                                                    <div className="r-side">
+                                                        <AlertDialog>
+                                                            <AlertDialogTrigger asChild>
+                                                                <button className="cancel-order-btn review-btn" >Add Review</button>
+                                                            </AlertDialogTrigger>
+                                                            <AlertDialogContent>
+                                                                <AlertDialogHeader className={"hidden"}>
+                                                                    <AlertDialogTitle>Are you sure you want to cancel this order?</AlertDialogTitle>
+                                                                </AlertDialogHeader>
+                                                                <AlertDialogHeader>
+                                                                    <div className="feedback" style={{ border: "none" ,boxShadow: "none"}}>
+                                                                        <Form {...form}>
+                                                                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                                                                {/* Phone number input field */}
+                                                                                <h2>Feedback</h2>
+                                                                                <Image src={item.items.image} width={100} height={100} alt="Loops" className="img-of-ticket m-auto w-28 h-28 mb-4 rounded-sm border border-black/15" />
+                                                                                <FormField
+                                                                                    control={form.control}
+                                                                                    name="rate"
+                                                                                    render={({ field }) => (
+                                                                                        <FormItem>
+                                                                                            <FormControl className="rate">
+                                                                                                <RadioGroup {...field} // Spread `field` to ensure React Hook Form integrates with the `RadioGroup`
+                                                                                                    onValueChange={(value) => {
+                                                                                                        setRate(Number(value)); // Update the local `rate` state
+                                                                                                        field.onChange(value); // Call `onChange` to update React Hook Form's state
+                                                                                                    }}>
+                                                                                                    <div className="rate-raiata">
+                                                                                                        {/* Individual radio items */}
+                                                                                                        <RadioGroupItem value="1" id="1" />
+                                                                                                        <Label htmlFor="1">
+                                                                                                            <i className={`${rate >= 1 ? "goldenStar" : "grayStar"} fa fa-star`} onClick={() => setRate(1)}></i>
+                                                                                                        </Label>
+
+                                                                                                        <RadioGroupItem value="2" id="2" />
+                                                                                                        <Label htmlFor="2">
+                                                                                                            <i className={`${rate >= 2 ? "goldenStar" : "grayStar"} fa fa-star`} onClick={() => setRate(2)}></i>
+                                                                                                        </Label>
+
+                                                                                                        <RadioGroupItem value="3" id="3" />
+                                                                                                        <Label htmlFor="3">
+                                                                                                            <i className={`${rate >= 3 ? "goldenStar" : "grayStar"} fa fa-star`} onClick={() => setRate(3)} ></i>
+                                                                                                        </Label>
+
+                                                                                                        <RadioGroupItem value="4" id="4" />
+                                                                                                        <Label htmlFor="4">
+                                                                                                            <i className={`${rate >= 4 ? "goldenStar" : "grayStar"} fa fa-star`} onClick={() => setRate(4)} ></i>
+                                                                                                        </Label>
+
+                                                                                                        <RadioGroupItem value="5" id="5" />
+                                                                                                        <Label htmlFor="5">
+                                                                                                            <i className={`${rate >= 5 ? "goldenStar" : "grayStar"} fa fa-star`} onClick={() => setRate(5)} ></i>
+                                                                                                        </Label>
+                                                                                                    </div>
+                                                                                                </RadioGroup>
+                                                                                            </FormControl>
+                                                                                            <FormMessage /> {/* Validation error message */}
+                                                                                        </FormItem>
+                                                                                    )}
+                                                                                />
+                                                                                <FormField control={form.control} name="feedback"
+                                                                                    render={({ field }) => (
+                                                                                        <FormItem>
+                                                                                            <FormControl>
+                                                                                                <Textarea placeholder="Type your message here."  {...field} onClick={() => {
+                                                                                                    setReviewedItem(item.items.id);
+                                                                                                }} />
+                                                                                            </FormControl>
+                                                                                            <FormMessage /> {/* Validation error message */}
+                                                                                        </FormItem>
+                                                                                    )}
+                                                                                />
+
+                                                                                <Button type="submit" className="submit-btn" disabled={loading}>
+                                                                                    {loading ? 'Loading...' : 'Send'}
+                                                                                </Button>
+                                                                            </form>
+                                                                        </Form>
+                                                                    </div>
+                                                                </AlertDialogHeader>
+                                                                <AlertDialogFooter className={"flex flex-col-reverse sm:flex-row sm:justify-center sm:space-x-2 close-download-cont mb-2"}>
+                                                                    <AlertDialogCancel className="mt-2 sm:mt-0 p-0 border-none outline-none shadow-none bg-transparent close-dialog top-5 end-5" ><i className="fa-solid fa-xmark"></i></AlertDialogCancel>
+                                                                </AlertDialogFooter>
+                                                            </AlertDialogContent>
+                                                        </AlertDialog>
+                                                    </div> : null
+                                            }
 
                                         </div>
                                     )
@@ -201,30 +333,13 @@ export default function Orders() {
                                             </AlertDialogHeader>
                                             <AlertDialogFooter className={"flex flex-col-reverse sm:flex-row sm:justify-center sm:space-x-2"}>
                                                 <AlertDialogCancel className="mt-2 sm:mt-0">Keep Order</AlertDialogCancel>
-                                                <AlertDialogAction className="mt-2 sm:mt-0 bg-[#EB0017]" onClick={() => {  }}>Cancel Order</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-                                    : null
-                            }
-                            {
-                                data.status == "delivered" && data.can_return ?
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <button className="cancel-order-btn" >Return Order</button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Are you sure you want to return this order?</AlertDialogTitle>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter className={"flex flex-col-reverse sm:flex-row sm:justify-center sm:space-x-2"}>
-                                                <AlertDialogCancel className="mt-2 sm:mt-0">Keep Order</AlertDialogCancel>
                                                 <AlertDialogAction className="mt-2 sm:mt-0 bg-[#EB0017]" onClick={() => { handleCancel(data.id) }}>Cancel Order</AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>
                                     : null
                             }
+                            {data.can_return ? <Link href={`/profile/return-order?id=${data.id}`} className="cancel-order-btn" >Return Order</Link> : null}
                         </div>
                     </div>
             }

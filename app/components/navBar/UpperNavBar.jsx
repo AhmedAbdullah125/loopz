@@ -22,10 +22,10 @@ export default function UpperNavBar() {
             <div className='upper'>
                 <span className='welcomeSpan font14-400'>Welcome to loopz</span>
                 <div className="right-side">
-                    <div className="van">
+                    <Link href={'/profile/orders'} className="van">
                         <Image src={van} alt='Van' className='van-img'></Image>
                         <span className='track font14-400'>Track Your Order</span>
-                    </div>
+                    </Link>
                     <span className='font14-400'>|</span>
                     <div className="global" id='global' onClick={openLangList}>
                         <Image src={global} alt='global'></Image>

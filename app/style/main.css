@@ -2509,6 +2509,28 @@ header .cart-balance {
   border: 1px solid var(--main-color);
 }
 
+.date-cont {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 767px) {
+  .date-cont {
+    padding: 10px 10px;
+  }
+}
+.date-cont h3 {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 0;
+  min-width: 100px;
+}
+
 .profile {
   padding: 40px 0;
 }
@@ -3933,6 +3955,65 @@ header .cart-balance {
   margin: 0;
 }
 .review-btn:hover {
+  color: var(--white-color);
+  background-color: var(--main-color);
+}
+
+.profile-r-side .profile-img-return {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.profile-r-side .profile-img-return .img-triger-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  height: 166px;
+  width: 166px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.profile-r-side .profile-img-return .img-triger-cont img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.profile-r-side .profile-img-return .img-triger-cont i {
+  color: #484C52;
+  font-size: 20px;
+}
+.profile-r-side .profile-img-return .img-triger-cont span {
+  color: #484C52;
+  font-size: 14px;
+  font-weight: 300;
+  margin-bottom: 0;
+}
+.profile-r-side form .return-btn {
+  margin: 20px 0 0 0 !important;
+  transform: translate(0%, 0%);
+  min-width: 200px !important;
+}
+.profile-r-side .check-box-return {
+  border-radius: 3px;
+  height: 21px;
+  width: 21px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  margin: 0;
+  overflow: hidden;
+}
+.profile-r-side .check-box-return i {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
   color: var(--white-color);
   background-color: var(--main-color);
 }/*# sourceMappingURL=main.css.map */

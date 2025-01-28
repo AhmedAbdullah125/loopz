@@ -14,14 +14,13 @@ import { toast } from 'sonner'
 export default function NavBar() {
     let { cartCont, cartHandling } = useContext(CounterContext);
     let { data } = useContext(ProfileDataContext);
-    console.log(data);
-
+    
     return (
         <header>
             <UpperNavBar></UpperNavBar>
             <div className="container">
                 <div className="mainNavBar">
-                    <i className="fa-solid fa-bars colorMain"></i>
+                    {/* <i className="fa-solid fa-bars colorMain"></i> */}
                     <Link href={'/'} className='logoMainLink'><Image src={logo} alt='loopz' className='logo'></Image></Link>
                     {
                         data ?

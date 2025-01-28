@@ -3,12 +3,16 @@ import axios from 'axios';
 import { toast } from 'sonner';
 
 
-export const checkOut = async (cartCont, setLoading, address, selectedTab, code, cartHandling, router) => {
+export const rentalCheckOut = async (product, setLoading, address, selectedTab, quantity, code, router,startDate, endDate) => {
 
     setLoading(true); // Set loading state
     const formData = new FormData();
-    formData.append('code', code);
     formData.append('address_id', address);
+    formData.append(`product_id`, product);
+    formData.append(`quantity`, Number(quantity));
+    formData.append('date_from', startDate);
+    formData.append('date_to', endDate);
+    formData.append('code', code);
     if (selectedTab == 1) {
         formData.append('payment_method', "card");
     }
@@ -18,11 +22,7 @@ export const checkOut = async (cartCont, setLoading, address, selectedTab, code,
     else if (selectedTab == 3) {
         formData.append('payment_method', "cash");
     }
-    for (let index = 0; index < cartCont.length; index++) {
-        formData.append(`toys[${index}][toy_id]`, cartCont[index].id);
-        formData.append(`toys[${index}][quantity]`, cartCont[index].Quantity);
-    }
-    const url = `${API_BASE_URL}/orders`; // API endpoint
+    const url = `${API_BASE_URL}/rentals`; // API endpoint
     try {
         const response = await axios.post(url, formData, {
             headers: {
@@ -33,7 +33,7 @@ export const checkOut = async (cartCont, setLoading, address, selectedTab, code,
         });
         setLoading(false); // Reset loading state
 
-        if (response.status === 200) {            
+        if (response.status === 200) {
             if (selectedTab == 1) {
                 const message = response.data?.data.status_text || 'Order Submited Successfully';
                 toast(message, {
@@ -42,8 +42,6 @@ export const checkOut = async (cartCont, setLoading, address, selectedTab, code,
                         boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
                     },
                 });
-                localStorage.setItem('cart', JSON.stringify([]));
-                cartHandling([]);
                 router.push(response.data.data.payment_url);
             }
             else {
@@ -54,8 +52,6 @@ export const checkOut = async (cartCont, setLoading, address, selectedTab, code,
                         boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
                     },
                 });
-                localStorage.setItem('cart', JSON.stringify([]));
-                cartHandling([]);
                 router.push('/profile/orders');
             }
 

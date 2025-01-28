@@ -1,5 +1,5 @@
 'use client';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -13,12 +13,11 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { useRouter } from 'next/navigation';
 import { API_BASE_URL } from '@/lib/apiConfig';
-import axios from 'axios';
 import { toast } from 'sonner';
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group';
 import { Label } from '@radix-ui/react-label';
 import { logOut } from './logout';
-import { ProfileDataContext, useProfileData } from '@/app/Context/ProfileContext';
+import { ProfileDataContext } from '@/app/Context/ProfileContext';
 import Loading from '@/app/loading';
 import { updateProfile } from './updateProfileData';
 export default function EditPage() {

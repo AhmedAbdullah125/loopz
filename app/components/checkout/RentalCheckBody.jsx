@@ -1,8 +1,6 @@
 'use client'
 import React, { useState, useEffect, useContext } from 'react'
-import { CounterContext } from '@/app/Context/CounterContext'
 import Image from 'next/image';
-import Link from 'next/link';
 import addressImage from '../../assets/checkout/address.svg'
 import taa from '../../assets/checkout/taa.svg'
 import wallet from '../../assets/checkout/wallet.png'
@@ -12,31 +10,51 @@ import { API_BASE_URL } from '@/lib/apiConfig';
 import axios from 'axios';
 import Loading from '@/app/loading';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
-import { checkOut } from './checkOut';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { rentalCheckOut } from './rentalCheckOut';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function CartBody() {
-    let { data } = useContext(ProfileDataContext);
+export default function RentalCheckBody() {
     const [loading, setLoading] = useState(false);
+    let { data } = useContext(ProfileDataContext);
     const [code, setCode] = useState('');
-    let { cartCont, cartHandling } = useContext(CounterContext);
+    const searchParams = useSearchParams()
+    const [pathId, setPathId] = useState(searchParams.get('id'))
+    const [quantity, setQuantity] = useState(searchParams.get('count'))
+    let [product, setProduct] = useState([]);
+    useEffect(() => {
+        setLoading(true)
+        const getHomeData = async () => {
+            try {
+                const productResponse = await axios.get(`${API_BASE_URL}/products/${pathId}`);
+                let product = productResponse.data.data;
+                setProduct(product)
+                setLoading(false)
+
+            } catch (error) {
+                console.error('Error retrieving data:', error);
+                throw new Error('Could not get data');
+                setLoading(false)
+            }
+        };
+        getHomeData();
+
+    }, []);
+
     // Variable to store the total price of items in the cart
-    let totalPrice = 0;
-    for (let index = 0; index < cartCont.length; index++) {
-        totalPrice += Number(cartCont[index].price) * Number(cartCont[index].Quantity);
-    }
+    let totalPrice = Number(product.price * quantity);
+
     let [discount, setDiscount] = useState(0);
-    let [tax, setTax] = useState(0);
+    let [tax, setTax] = useState((totalPrice + discount) * .15);
     const [address, setAddress] = useState(data?.default_address);
     const [addresses, setAddesses] = useState([]);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
     let [ShippingPrice, setShipping] = useState(Number(address?.city.delivery_cost));
     useEffect(() => {
-        if ((discount * totalPrice * -1 / 100) >= 10) {
-            setTax((totalPrice - 10) * .15);
-        }
-        else {
-            setTax((totalPrice + (totalPrice * discount / 100)) * .15);
-        }
+        setTax((totalPrice + (totalPrice * discount / 100)) * .15);
         setShipping(Number(address?.city.delivery_cost));
     }, [totalPrice, discount, address]);
     let methods = [{ id: 1, name: "Credit Card" }, { id: 2, name: "Wallet" }, { id: 3, name: "Cash on Delivery" }];
@@ -50,9 +68,6 @@ export default function CartBody() {
     const [token, setToken] = useState(localStorage.getItem('token'));
     useEffect(() => {
         // Retrieve token from localStorage
-        if (cartCont.length === 0) {
-            router.push('/profile/orders')
-        }
         const savedToken = localStorage.getItem('token');
         setToken(savedToken);
         if (!savedToken) {
@@ -80,9 +95,14 @@ export default function CartBody() {
         getAddresses();
     }, []);
     const router = useRouter();
+    // Function to format date as "YYYY-M-D"
+    const formatDate = (date) => {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    };
     const handleCheckout = async () => {
-        await checkOut(cartCont, setLoading, address.id, selectedTab, code, cartHandling, router);
+        await rentalCheckOut(product.id, setLoading, address.id, selectedTab, quantity, code, router, formatDate(startDate), formatDate(endDate));
     }
+    
     return (
         <div className="cart-body">
             {/* Shipping Address Section */}
@@ -146,6 +166,15 @@ export default function CartBody() {
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>
+                            <div className="date-cont flex items-center justify-start">
+                                <h3>Date from</h3>
+                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                            </div>
+                            <div className="date-cont flex items-center justify-start">
+                                <h3 >Date to</h3>
+                                <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+                            </div>
+
 
                             {/* Your Order Section */}
                             <div className="prods-heading ">
@@ -153,22 +182,17 @@ export default function CartBody() {
                             </div>
                             <div className="checkout-order cart-products">
                                 {/* Check if the cart is empty */}
-                                {
-                                    cartCont.length === 0 ? <p className='empty'>Cart is Empty</p> :
-                                        cartCont.map((item, index) =>
-                                            <div className="checkout-product" key={index}>
-                                                {/* Displaying each product in the cart */}
-                                                <div className="img-cont">
-                                                    <Image src={item.image} width={100} height={100} alt='product' className='product-img'></Image>
-                                                </div>
-                                                <div className="add-details">
-                                                    <h2>{item.name}</h2>
-                                                    <h3>{item.price} K.D</h3>
-                                                    <h4>Qnt : {item.Quantity}</h4>
-                                                </div>
-                                            </div>
-                                        )
-                                }
+                                <div className="checkout-product">
+                                    {/* Displaying each product in the cart */}
+                                    <div className="img-cont">
+                                        <Image src={product?.image} width={100} height={100} alt='product' className='product-img'></Image>
+                                    </div>
+                                    <div className="add-details">
+                                        <h2>{product?.name}</h2>
+                                        <h3>{product?.price} K.D</h3>
+                                        <h4>Qnt : {quantity || 1}</h4>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Payment Method Section */}
@@ -326,10 +350,7 @@ export default function CartBody() {
                             {/* Final Total */}
                             <div className="total">
                                 <div className="head">Total</div>
-                                <div className="value">{
-                                    (discount * totalPrice / 100 * -1) >= 10 ?
-                                        totalPrice + tax - 10 + ShippingPrice
-                                        : (discount * totalPrice / 100 ) + totalPrice + tax + ShippingPrice
+                                <div className="value">{(discount * totalPrice / 100) + totalPrice + tax + ShippingPrice
                                 } K.D</div>
                             </div>
                             {/* Checkout Button */}

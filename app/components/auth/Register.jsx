@@ -72,18 +72,10 @@ export default function Register({ step, setStep, setPhone }) {
             for (let index = 0; index < data.length; index++) {
                 if (data[index].id == country) {
                     setCountryNumberLength(data[index].phone_length)
-                    console.log(countryNumberLength);
                 }
             }
         }
     }, [country, data]);
-
-    console.log(data);
-
-
-
-
-
     // State to manage the phone number input
     const [phoneNumber, setPhoneNumber] = useState(null);
 
@@ -103,24 +95,16 @@ export default function Register({ step, setStep, setPhone }) {
             message: 'Please select a country' || 'name must be at least 2 characters.',
         }),
     });
-
-    // Additional state variables for managing API call status
-
-
-    // Function to handle API POST requests
     const sendPostRequest = async (data) => {
         setLoading(true); // Set loading state
         const url = `${API_BASE_URL}/auth/register`; // API endpoint
-
         // Prepare the request payload
         const queryParams = {
             phone: data.phone,
             name: data.fullName,
             email: data.email,
             country_id: Number(data.country),
-
         };
-
         return axios({
             method: 'post',
             url: url,
@@ -131,7 +115,6 @@ export default function Register({ step, setStep, setPhone }) {
                 setLoading(false); // Reset loading state
                 // Get message from response
                 const message = response.data?.data || 'Operation successful';
-
                 if (response.status === 200) {
                     // Success toast notification
                     toast(message, {
@@ -152,12 +135,8 @@ export default function Register({ step, setStep, setPhone }) {
                 }
             })
             .catch(error => {
-                setLoading(false); // Reset loading state
-
-                // Log the error for debugging
-                // Extract error message from response
+                setLoading(false);
                 const errorMessage = error?.response?.data.msg || error.message || 'An unknown error occurred';
-
                 // Display error toast notification
                 toast(errorMessage, {
                     style: {
@@ -181,30 +160,23 @@ export default function Register({ step, setStep, setPhone }) {
 
     // Form submission handler
     function onSubmit(data) {
-        console.log(data);
-
         sendPostRequest(data); // Call API request function
     }
-
     return (
         <div className='login'>
             <div className="container">
                 <div className="login-cont">
                     {/* Display the logo */}
                     <Image src={logo} alt='loopz' className='logo'></Image>
-
                     {
                         loading ? <Loading /> :
                             <div className='login-form'>
                                 <h2>Create Account</h2>
                                 <h3 className='max-w-[225px] mx-auto'>Please complete following data to create your account</h3>
-
                                 {/* Form component */}
                                 <Form {...form}>
                                     <form onSubmit={form.handleSubmit(onSubmit)}>
                                         {/* Phone number input field */}
-
-
                                         <FormField
                                             control={form.control}
                                             name="phone"
@@ -282,7 +254,6 @@ export default function Register({ step, setStep, setPhone }) {
                                                     <FormMessage /> {/* Validation error message */}
                                                 </FormItem>
                                             )} />
-
                                         <p className='text-[0.8rem] font-medium text-destructive' style={{ display: phoneErrorDisplay }}>Only digits are allowed</p>
                                         <FormField control={form.control} name="fullName" render={({ field }) => (
                                             <FormItem>
@@ -304,15 +275,11 @@ export default function Register({ step, setStep, setPhone }) {
                                             </FormItem>
                                         )}
                                         />
-
-                                        {/* Submit button */}
                                         <Button type="submit" className="submit-btn" disabled={loading}>
                                             {loading ? 'Loading...' : 'Create Account'}
                                         </Button>
                                     </form>
                                 </Form>
-
-                                {/* Link to registration page */}
                                 <div className="have-account">
                                     <span>Already have account? </span>
                                     <Link href="/login">Login</Link>
@@ -325,36 +292,3 @@ export default function Register({ step, setStep, setPhone }) {
     );
 }
 
-
-
-{/* <DropdownMenu className="drop-menu-of-country">
-<DropdownMenuTrigger asChild>
-    <div className="drop-triget-ies">
-        {
-            country ? <Image src={country.image} alt={country.name} width={20} height={20} /> :
-                <i className="fa-solid fa-globe"></i>
-        }
-        <i className="fa-solid fa-chevron-down"></i>
-    </div>
-</DropdownMenuTrigger>
-<DropdownMenuContent className="w-12">
-    <DropdownMenuGroup>
-        {
-            data?.map((country) => (
-                <DropdownMenuItem key={country.id} onClick={() => {
-                    setCountry(country)
-                    console.log(country);
-
-                }}>
-                    {
-                        country.name
-                    }
-                    <DropdownMenuShortcut>
-                        <Image src={country.image} alt={country.name} width={20} height={20} />
-                    </DropdownMenuShortcut>
-                </DropdownMenuItem>
-            ))
-        }
-    </DropdownMenuGroup>
-</DropdownMenuContent> 
-</DropdownMenu>*/}

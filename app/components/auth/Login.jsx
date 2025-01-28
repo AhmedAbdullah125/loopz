@@ -142,7 +142,6 @@ export default function Login({ step, setStep, setPhone }) {
             for (let index = 0; index < data.length; index++) {
                 if (data[index].id == country) {
                     setCountryNumberLength(data[index].phone_length)
-                    console.log(countryNumberLength);
                 }
             }
         }

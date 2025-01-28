@@ -35,7 +35,6 @@ export default function SettingsPage() {
     const handleToggleNotification = () => {
         toggleNotification(setLoading);
     };
-    console.log(loading);
     
     return (
         <div className='edit-profile-cont'>

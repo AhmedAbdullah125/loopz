@@ -19,7 +19,6 @@ export default function SideData() {
     let { data } = useContext(ProfileDataContext);
     const pathname = usePathname();
     const [display, setDisplay] = useState(true);
-    console.log(data);
 
     return (
         <div className="profile-sideBar">

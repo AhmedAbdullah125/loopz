@@ -62,19 +62,26 @@ export default function ProductDetails({ product, title }) {
                 <p className='availability' style={{ display: display }}>Only {product.availability_number} available</p>
             </div>
             {
-                title == "Ticket" ? null :
+                title == "toys" ?
                     <div className="van-hint">
                         <div className="img">
                             <Image src={van} alt='loopz' className='van-img'></Image>
                         </div>
                         <p className='hinrP'>Order before 7 PM and receive it at the same day. except for chalet and sabah al salem area</p>
                     </div>
+                    :
+                    null
             }
             {
                 title == "Ticket" ? null :
                     <p className='policies'> Read More About <Link href={'/policies'}><span>Return Policy</span></Link>  </p>
             }
-            <Link className='cartLink' href={''}>{title == "toys" ? "Add to Cart" : "Purchase"}</Link>
+            {
+                title == 'toys' ?
+                    <button className='cartLink'>Add to Cart</button>
+                    :
+                    <Link className='cartLink' href={`rentalcheckout?id=${product.id}&count=${productCount}`}>Purchase</Link>
+            }
         </div>
     )
 }
