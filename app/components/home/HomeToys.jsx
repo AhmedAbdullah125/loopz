@@ -84,102 +84,108 @@ export default function HomeToys(toys) {
                                     >
                                         {item.details.map((singleProduct, index) =>
                                             <SwiperSlide key={index}>
-                                                <div className={`product-card`} >
-                                                    {singleProduct.discount > 0 ?
+                                                <Link href={`/toy?id=${singleProduct.id}`} className={`product-card`}>
+                                                    {singleProduct.discount > 0 ? (
                                                         <div className="offerTag" style={{ backgroundImage: `url(${offer.src}` }}>
                                                             <p>{singleProduct.discount}% Sale</p>
                                                         </div>
-                                                        : null
-                                                    }
+                                                    ) : null}
 
-                                                    <i className={`${bookmarks.includes(singleProduct.id) || singleProduct.is_favorite ? 'fa-solid colored' : "fa-regular"} fa-bookmark `} onClick={() => {
-                                                        if (bookmarks.includes(singleProduct.id)) {
+                                                    <i
+                                                        className={`${bookmarks.includes(singleProduct.id) || singleProduct.is_favorite
+                                                                ? 'fa-solid colored'
+                                                                : 'fa-regular'
+                                                            } fa-bookmark`}
+                                                        onClick={(event) => {
+                                                            // Prevent event bubbling
+                                                            event.stopPropagation();
 
-                                                            //handle Add To Favourites 
-                                                            secBookmark = [...bookmarks];
-                                                            let index = secBookmark.indexOf(singleProduct.id);
-                                                            secBookmark.splice(index, 1);
-                                                            setBookmarks(secBookmark);
-                                                        }
-                                                        else {
-                                                            //handle Remove From Favourites 
-                                                            secBookmark = [...bookmarks];
-                                                            secBookmark.push(singleProduct.id);
-                                                            setBookmarks(secBookmark);
-                                                        }
-                                                    }
-                                                    }></i>
+                                                            if (bookmarks.includes(singleProduct.id)) {
+                                                                // Handle remove from favorites
+                                                                const secBookmark = [...bookmarks];
+                                                                const index = secBookmark.indexOf(singleProduct.id);
+                                                                secBookmark.splice(index, 1);
+                                                                setBookmarks(secBookmark);
+                                                            } else {
+                                                                // Handle add to favorites
+                                                                const secBookmark = [...bookmarks];
+                                                                secBookmark.push(singleProduct.id);
+                                                                setBookmarks(secBookmark);
+                                                            }
+                                                        }}
+                                                    ></i>
 
                                                     <div className="img-cont">
-                                                        <Image src={singleProduct.image} alt='Loopz' width={144} height={144}></Image>
+                                                        <Image src={singleProduct.image} alt="Loopz" width={144} height={144}></Image>
                                                     </div>
-                                                    <Link href={`/toy?id=${singleProduct.id}`} className="productName">{singleProduct.name}</Link>
+                                                    <Link href={`/toy?id=${singleProduct.id}`} className="productName">
+                                                        {singleProduct.name}
+                                                    </Link>
                                                     {/* <span className='productCat'>{singleProduct.category.name}</span> */}
                                                     <div className="rate">
-                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 1 ? "golden" : ""}`}></i>
-                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 2 ? "golden" : ""}`}></i>
-                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 3 ? "golden" : ""}`}></i>
-                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 4 ? "golden" : ""}`}></i>
-                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 5 ? "golden" : ""}`}></i>
+                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 1 ? 'golden' : ''}`}></i>
+                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 2 ? 'golden' : ''}`}></i>
+                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 3 ? 'golden' : ''}`}></i>
+                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 4 ? 'golden' : ''}`}></i>
+                                                        <i className={`fa-solid fa-star ${singleProduct.rate >= 5 ? 'golden' : ''}`}></i>
                                                     </div>
                                                     <div className="price-period">
-                                                        <h4 className='productPrice'>{singleProduct.price} K.D</h4>
-
+                                                        <h4 className="productPrice">{singleProduct.price} K.D</h4>
                                                     </div>
 
-                                                    <button className='addBtn'
+                                                    <button
+                                                        className="addBtn"
                                                         onClick={() => {
-
                                                             for (let index = 0; index < cartCont.length; index++) {
                                                                 if (cartCont[index].id === singleProduct.id) {
                                                                     setAddStatus('Already Added to cart');
-                                                                    toast("Already Added to cart", {
+                                                                    toast('Already Added to cart', {
                                                                         style: {
-                                                                            borderColor: "#dc3545",
-                                                                            boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)'
+                                                                            borderColor: '#dc3545',
+                                                                            boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)',
                                                                         },
-                                                                        description: "This item is already added to your cart",
-
-                                                                    })
+                                                                        description: 'This item is already added to your cart',
+                                                                    });
                                                                     return;
                                                                 }
-
                                                             }
                                                             if (cartCont.includes(singleProduct)) {
-                                                                toast("Already Added to cart", {
+                                                                toast('Already Added to cart', {
                                                                     style: {
-                                                                        borderColor: "#28a745",
-                                                                        boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)'
+                                                                        borderColor: '#28a745',
+                                                                        boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)',
                                                                     },
-                                                                    description: "This item is already added to your cart",
-
-                                                                })
-
-                                                            }
-                                                            else {
+                                                                    description: 'This item is already added to your cart',
+                                                                });
+                                                            } else {
                                                                 setCart([...cart, singleProduct]);
                                                                 if (JSON.parse(localStorage.getItem('cart')) === null) {
                                                                     localStorage.setItem('cart', JSON.stringify([]));
-                                                                }
-                                                                else {
-                                                                    localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...singleProduct, Quantity: 1 }]));
+                                                                } else {
+                                                                    localStorage.setItem(
+                                                                        'cart',
+                                                                        JSON.stringify([
+                                                                            ...JSON.parse(localStorage.getItem('cart')),
+                                                                            { ...singleProduct, Quantity: 1 },
+                                                                        ])
+                                                                    );
                                                                 }
                                                                 cartHandling([...cartCont, { ...singleProduct, Quantity: 1 }]);
                                                                 setAddStatus('Successfully Added to cart');
-                                                                toast("Successfully Added to cart", {
+                                                                toast('Successfully Added to cart', {
                                                                     style: {
-                                                                        borderColor: "#28a745",
-                                                                        boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)'
+                                                                        borderColor: '#28a745',
+                                                                        boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
                                                                     },
-                                                                    description: "This item is successfully added to your cart",
-
-                                                                })
+                                                                    description: 'This item is successfully added to your cart',
+                                                                });
                                                             }
-
                                                         }}
-                                                    >Add To Cart</button>
+                                                    >
+                                                        Add To Cart
+                                                    </button>
+                                                </Link>
 
-                                                </div>
                                             </SwiperSlide>
                                         )}
                                     </Swiper>
