@@ -32,6 +32,7 @@ export default function HomeSwiper() {
         getHomeData();
 
     }, []);
+    console.log(data);
 
     return (
         <div className="container home-slider">
@@ -72,26 +73,33 @@ export default function HomeSwiper() {
 
                     data.map((img, index) =>
                         <SwiperSlide key={index}>
-                            <div className="slide-img">
-                                {img.type == "video" ?
-                                    <video width="320" height="240" muted  autoPlay={"autoplay"}>
-                                        <source src={img.video} type="video/mp4" />
-                                        <source src={img.video} type="video/ogg" />
-                                    </video> :
-                                    <Image src={img.image} width={100} height={100} alt='Loops' />
-                                }
-                            </div>
+                            {
+                                img.url ?
+                                    <div className="slide-img">
+                                        {img.type == "video" ?
+                                            <video width="320" height="240" muted autoPlay={"autoplay"}>
+                                                <source src={img.video} type="video/mp4" />
+                                                <source src={img.video} type="video/ogg" />
+                                            </video> :
+                                            <>
+                                                <Image src={img.image} width={100} height={100} alt='Loops' onClick={() => window.location.href = img.url}/>
+                                            </>
+                                        }
+                                    </div>
+                                    : <div className="slide-img">
+                                        {img.type == "video" ?
+                                            <video width="320" height="240" muted autoPlay={"autoplay"}>
+                                                <source src={img.video} type="video/mp4" />
+                                                <source src={img.video} type="video/ogg" />
+                                            </video> :
+                                            <Image src={img.image} width={100} height={100} alt='Loops' />
+                                        }
+                                    </div>
+                            }
                         </SwiperSlide>
                     )
 
                 }
-                <SwiperSlide >
-                    <div className="slide-img">
-                        <Image src={back} alt='Loops' />
-                    </div>
-                </SwiperSlide>
-
-
             </Swiper>
         </div>
     )
