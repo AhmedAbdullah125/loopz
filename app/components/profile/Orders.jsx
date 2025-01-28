@@ -7,6 +7,7 @@ import Loading from "@/app/loading";
 import box from '../../assets/profile/orders.svg';
 import Link from "next/link";
 
+
 export default function Orders() {
     const tabs = [{ id: 1, title: "Toys" }, { id: 2, title: "Rentals" }];
     const [selectedTab, setSelectedTab] = useState(tabs[0].title);

@@ -14,6 +14,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { rentalCheckOut } from './rentalCheckOut';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { rentalCheckCode } from './rentalCheckCode';
 
 export default function RentalCheckBody() {
     const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ export default function RentalCheckBody() {
     // State to track the selected payment method
     let [selectedTab, setSelectedTab] = useState(1);
     const handleCheckCode = async (data) => {
-        await checkCode(data, setLoading, setDiscount, setCode);
+        await rentalCheckCode(data, setLoading, setDiscount, setCode);
     };
 
     const [token, setToken] = useState(localStorage.getItem('token'));

@@ -19,7 +19,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { cancelOrder } from "../../profile/order/cancelOeder";
 import { cancelRental } from "@/app/profile/order/cancelRental";
 
 export default function Orders() {
@@ -55,6 +54,8 @@ export default function Orders() {
         };
         getTickets();
     }, []);
+    console.log(data);
+    
 
     const handleCancel = (id) => {
         cancelRental(setLoading, id, router);
@@ -121,7 +122,11 @@ export default function Orders() {
                                         </div>
                                     </div>
                                     <div className="r-side">
-                                        <button className="cancel-order-btn review-btn" >Add Review</button>
+                                        {
+                                            data.status == "delivered" ?
+                                            <button className="cancel-order-btn review-btn" >Add Review</button>
+                                            :null
+                                        }
                                     </div>
 
                                 </div>
@@ -134,8 +139,8 @@ export default function Orders() {
                                         <Image src={marker} width={100} height={100} alt="Loops" className="img-of-ticket" />
                                     </div>
                                     <div className="text-cont">
-                                        <h5>{data.address}</h5>
-                                        <h6 className="address-details">{data.address}</h6>
+                                        <h5>{data.address.address}</h5>
+                                        <h6 className="address-details">{data.address.street}, {data.address.city.name}, {data.address.governorate.name}</h6>
                                     </div>
                                 </div>
 
