@@ -17,12 +17,15 @@ export default function CartBody() {
     let totalPrice = 0;
     let [worningDisplay, setWorningDisplay] = useState(false);
     let { data } = useContext(ProfileDataContext);
-    let tax = 1;
+    const [tax, setTax] = useState(totalPrice * .15);
     const router = useRouter();
     for (let index = 0; index < cartCont.length; index++) {
         totalPrice += Number(cartCont[index].price) * Number(cartCont[index].Quantity);
 
     }
+    useEffect(() => {
+        setTax(totalPrice * .15);
+    }, [totalPrice])
     return (
         <div className="cart-body">
             <div className="prods">

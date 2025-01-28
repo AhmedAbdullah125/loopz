@@ -84,7 +84,7 @@ export default function HomeToys(toys) {
                                     >
                                         {item.details.map((singleProduct, index) =>
                                             <SwiperSlide key={index}>
-                                                <Link href={`/toy?id=${singleProduct.id}`} className={`product-card`}>
+                                                <div className={`product-card`}>
                                                     {singleProduct.discount > 0 ? (
                                                         <div className="offerTag" style={{ backgroundImage: `url(${offer.src}` }}>
                                                             <p>{singleProduct.discount}% Sale</p>
@@ -184,7 +184,7 @@ export default function HomeToys(toys) {
                                                     >
                                                         Add To Cart
                                                     </button>
-                                                </Link>
+                                                </div>
 
                                             </SwiperSlide>
                                         )}

@@ -1,11 +1,16 @@
 'use client'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import van from '../../assets/products/van.svg'
 import Image from 'next/image';
+import { CounterContext } from '@/app/Context/CounterContext';
+import { toast } from 'sonner';
 export default function ProductDetails({ product, title }) {
     let [productCount, setProductCount] = useState(1);
     let [display, setDisplay] = useState("none");
+    let { cartCont, cartHandling } = useContext(CounterContext);
+    let [cart, setCart] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
+    let [addStatus, setAddStatus] = useState('Successfully Added to cart');
 
     return (
         <div className={`ProductDetails  col col-md-6 ${title == "Ticket" ? "ticket-productDetails" : ""}`}>
@@ -78,7 +83,52 @@ export default function ProductDetails({ product, title }) {
             }
             {
                 title == 'toys' ?
-                    <button className='cartLink'>Add to Cart</button>
+                    <button className='cartLink' onClick={() => {
+                        for (let index = 0; index < cartCont.length; index++) {
+                            if (cartCont[index].id === product.id) {
+                                setAddStatus('Already Added to cart');
+                                toast('Already Added to cart', {
+                                    style: {
+                                        borderColor: '#dc3545',
+                                        boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)',
+                                    },
+                                    description: 'This item is already added to your cart',
+                                });
+                                return;
+                            }
+                        }
+                        if (cartCont.includes(product)) {
+                            toast('Already Added to cart', {
+                                style: {
+                                    borderColor: '#28a745',
+                                    boxShadow: '0px 0px 10px rgba(220, 53, 69, .5)',
+                                },
+                                description: 'This item is already added to your cart',
+                            });
+                        } else {
+                            setCart([...cart, product]);
+                            if (JSON.parse(localStorage.getItem('cart')) === null) {
+                                localStorage.setItem('cart', JSON.stringify([]));
+                            } else {
+                                localStorage.setItem(
+                                    'cart',
+                                    JSON.stringify([
+                                        ...JSON.parse(localStorage.getItem('cart')),
+                                        { ...product, Quantity: 1 },
+                                    ])
+                                );
+                            }
+                            cartHandling([...cartCont, { ...product, Quantity: 1 }]);
+                            setAddStatus('Successfully Added to cart');
+                            toast('Successfully Added to cart', {
+                                style: {
+                                    borderColor: '#28a745',
+                                    boxShadow: '0px 0px 10px rgba(40, 167, 69, .5)',
+                                },
+                                description: 'This item is successfully added to your cart',
+                            });
+                        }
+                    }}>Add to Cart</button>
                     :
                     <Link className='cartLink' href={`rentalcheckout?id=${product.id}&count=${productCount}`}>Purchase</Link>
             }
