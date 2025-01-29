@@ -270,7 +270,113 @@ export default function HomeTickets(tickets) {
                                             </div>
                                             <div className="circul"></div>
                                             <div className="circul circul2"></div>
-                                            <Link href={''} className='addBtn'>Book Now</Link>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <button href={''} className='addBtn'>Book Now</button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        {/* <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle> */}
+                                                        {
+                                                            loading ? <Loading></Loading> :
+                                                                <div className="ticket-checkout-cont">
+                                                                    <div className="img-cont"> <Image src={singleProduct.image} width={100} height={100} alt='Loopz'></Image></div>
+                                                                    <div className="price-cont">
+                                                                        <h3>{singleProduct.name}</h3>
+                                                                        <h4>{(Number(singleProduct.price) * productCount * ((100 + discount) / 100)) * 1.15} K.D</h4>
+                                                                    </div>
+                                                                    <div className="count-cont-discount">
+                                                                        <div className="prod-count">
+                                                                            <span className='minus' onClick={() => {
+                                                                                if (productCount > 1) {
+                                                                                    setProductCount(productCount - 1);
+                                                                                }
+                                                                            }}
+                                                                            >-</span>
+                                                                            <span className='count'>{productCount}</span>
+                                                                            <span className='minus'
+                                                                                onClick={() => {
+                                                                                    setProductCount(productCount + 1);
+                                                                                }}
+                                                                            >+</span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="input-cont">
+                                                                        <label htmlFor="Voucher">Voucher/Gift Card</label>
+                                                                        <div className="imp-btn-cont">
+                                                                            <input type="text" id='Voucher' name='Voucher' placeholder='Paste Voucher Code' />
+                                                                            <button disabled={loading} onClick={() => {
+
+                                                                                if (document.getElementById("Voucher").value == "") {
+                                                                                    document.getElementById("Voucher").style.border = "1px solid #C71919";
+                                                                                    setTimeout(() => {
+                                                                                        document.getElementById("Voucher").style.border = "1px solid #e0e0e0";
+                                                                                    }, 2000);
+                                                                                } else {
+                                                                                    handleCheckCode(document.getElementById("Voucher").value);
+
+                                                                                }
+
+                                                                            }}>Apply</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="cart-products methods-cont">
+                                                                        {/* Tabs for selecting a payment method */}
+                                                                        <div className="tabs">
+                                                                            {methods.map((methd, index) =>
+                                                                                <div key={methd.id} className={`tab ${selectedTab == methd.id ? 'avtiveTab' : ""}`} onClick={() => {
+                                                                                    setSelectedTab(methd.id); // Update the selected tab
+                                                                                }}>
+                                                                                    <div className="tab-bullet-cont">
+                                                                                        <div className="bullet">
+                                                                                            {
+                                                                                                selectedTab == methd.id ? <div className="bullet-dot"></div> : null
+                                                                                            }
+                                                                                        </div>
+                                                                                        <span>{methd.name}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+
+                                                                        {/* Display payment method details based on selected tab */}
+                                                                        <div className="methods-body">
+                                                                            {
+                                                                                selectedTab == 1 ?
+
+                                                                                    <div className="cash-on-delivery method-body">You will be directed to payment gateway</div>
+                                                                                    :
+                                                                                    selectedTab == 2 ?
+                                                                                        <div className="wallet method-body">
+                                                                                            <div className="l-side">
+                                                                                                <div className="img-cont">
+                                                                                                    {/* Static image for the wallet */}
+                                                                                                    <Image src={wallet} alt='Loopz' className='wallet-img'></Image>
+                                                                                                </div>
+                                                                                                <div className="h">
+                                                                                                    <h3>Wallet Balance</h3>
+                                                                                                    <h4><span>{data?.balance || 0}</span> K.D</h4>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        :
+                                                                                        <div className="cash-on-delivery method-body">Cash on Delivery</div>
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        }
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter className={"flex flex-col-reverse sm:flex-row sm:justify-center sm:space-x-2"}>
+                                                        <AlertDialogCancel className="mt-2 sm:mt-0">Cancel</AlertDialogCancel>
+                                                        <Button className="mt-2 sm:mt-0 bg-[#7a3abf]" onClick={() => {
+                                                            handleCheckout();
+                                                            console.log("clicked");
+                                                        }}>Confirm</Button>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
                                         </div>
                                     </div>
 
