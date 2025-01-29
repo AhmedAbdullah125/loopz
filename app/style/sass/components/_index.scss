@@ -74,39 +74,45 @@
     }
 
 }
-.tab-bullet-cont{
+
+.tab-bullet-cont {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap:11px;
-    .bullet{
+    gap: 11px;
+
+    .bullet {
         width: 24px;
         height: 24px;
         border-radius: 50%;
         flex-shrink: 0;
-        border:1px solid $main ;
+        border: 1px solid $main ;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+
         @media screen and (max-width: 767px) {
             width: 20px;
             height: 20px;
         }
-        .bullet-dot{
+
+        .bullet-dot {
             width: 16px;
             height: 16px;
             border-radius: 50%;
             background-color: $main;
+
             @media screen and (max-width: 767px) {
                 width: 12px;
                 height: 12px;
-                
+
             }
         }
 
     }
 }
+
 .HomeContentHeader {
     .swiper-slide {
         height: auto;
@@ -118,7 +124,8 @@
         flex-direction: column;
         gap: 12px;
         margin-bottom: 60px;
-        .cat-cat{
+
+        .cat-cat {
             margin-bottom: 24px;
         }
 
@@ -291,9 +298,11 @@
             max-height: unset;
             object-fit: cover;
         }
-        .productName{
+
+        .productName {
             width: calc(100% - 50px);
         }
+
         .data-cont {
             padding: 17px 13px;
             border: 1px solid rgba($color: #1C1C1C, $alpha: .20);
@@ -301,9 +310,11 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            .feature-cont{
+
+            .feature-cont {
                 height: 100%;
             }
+
             ul {
                 padding-inline-start: 13px;
                 margin-bottom: 0;
@@ -426,6 +437,7 @@
         transform: scale(1.1);
     }
 }
+
 .addBtn {
     width: 100%;
     height: 40px;
@@ -442,25 +454,116 @@
 .addBtn:hover {
     transform: scale(1.1);
 }
-@media (max-width: 767px) {
-    .tabs{
-        gap:5px;
 
-        .tab{
-            span{
+@media (max-width: 767px) {
+    .tabs {
+        gap: 5px;
+
+        .tab {
+            span {
                 font-size: 13px;
 
             }
         }
-        .tab:hover span{
+
+        .tab:hover span {
             font-size: 13px;
         }
     }
 }
 
-:where([data-sonner-toast][data-mounted="true"]){
+:where([data-sonner-toast][data-mounted="true"]) {
     border: 1px solid $main;
 }
-:where([data-sonner-toast][data-styled="true"]){
+
+:where([data-sonner-toast][data-styled="true"]) {
     border: 1px solid $main;
+}
+
+.ticket-checkout-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .img-cont {
+        width: 170px;
+        height: 170px;
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 16px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $black;
+        margin-bottom: 16px;
+    }
+
+    h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: $black;
+        margin-bottom: 16px;
+    }
+
+    .count-cont-discount {
+        margin-bottom: 16px;
+    }
+
+    .input-cont {
+        width: 100%;
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        .imp-btn-cont {
+            margin-bottom: 16px;
+        }
+    }
+
+    .methods-cont {
+        padding: 15px;
+        width: 100%;
+    }
+
+    .methods-cont {
+        .tabs {
+            gap: 8px;
+            margin-bottom: 10px;
+            justify-content: space-around;
+            .tab {
+                gap: 5px;
+
+                span {
+                    font-size: 14px;
+                }
+            }
+
+            .tab:hover {
+                span {
+                    font-size: 14px;
+                }
+            }
+
+            .avtiveTab {
+                border-bottom: 1px solid $main;
+                gap: 5px;
+
+                span {
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: $main;
+                }
+            }
+
+        }
+    }
 }

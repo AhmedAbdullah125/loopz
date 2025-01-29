@@ -5,7 +5,7 @@ import RentalCheckBody from '../components/checkout/RentalCheckBody';
 
 export default function Checkout() {
   // let { cartCont, cartHandling } = useContext(CounterContext);
-
+ 
   return (
     <div className='cart-page'> {/* Wrapper for the entire checkout page */}
       <div className="container"> {/* Ensures consistent layout and central alignment */}

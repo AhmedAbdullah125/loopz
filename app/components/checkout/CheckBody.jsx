@@ -282,7 +282,7 @@ export default function CartBody() {
 
                         {/* Price Summary Section */}
                         <div className="price-summary">
-                            <div className="input-cont">
+                            <div className="count-cont-discount">
                                 <label htmlFor="Voucher">Voucher/Gift Card</label>
                                 <div className="imp-btn-cont">
                                     <input type="text" id='Voucher' name='Voucher' placeholder='Paste Voucher Code' />

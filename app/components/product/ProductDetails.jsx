@@ -5,13 +5,16 @@ import van from '../../assets/products/van.svg'
 import Image from 'next/image';
 import { CounterContext } from '@/app/Context/CounterContext';
 import { toast } from 'sonner';
+import { ProfileDataContext } from '@/app/Context/ProfileContext';
+import { useRouter } from 'next/navigation';
 export default function ProductDetails({ product, title }) {
     let [productCount, setProductCount] = useState(1);
     let [display, setDisplay] = useState("none");
     let { cartCont, cartHandling } = useContext(CounterContext);
     let [cart, setCart] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
     let [addStatus, setAddStatus] = useState('Successfully Added to cart');
-
+    const router = useRouter();
+    const {data} = useContext(ProfileDataContext);
     return (
         <div className={`ProductDetails  col col-md-6 ${title == "Ticket" ? "ticket-productDetails" : ""}`}>
             <h3 className='product-name'>{product.name}</h3>
@@ -130,7 +133,15 @@ export default function ProductDetails({ product, title }) {
                         }
                     }}>Add to Cart</button>
                     :
-                    <Link className='cartLink' href={`rentalcheckout?id=${product.id}&count=${productCount}`}>Purchase</Link>
+                    <button className='cartLink' onClick={() => {
+                        if (data?.default_address) {
+                            router.push(`rentalcheckout?id=${product.id}&count=${productCount}`)
+                        }
+                        else {
+                            router.push('/profile/add-address')
+                            toast.warning('Please Add Address');
+                        }
+                    }}>Purchase</button>
             }
         </div>
     )

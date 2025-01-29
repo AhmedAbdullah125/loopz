@@ -35,6 +35,7 @@ export default function CartBody() {
                         onClick={() => {
                             localStorage.setItem('cart', JSON.stringify([]));
                             cartHandling([]);
+                            router.push('/');
                         }}
                     ><i className="fa-regular fa-trash-can"></i> clear all cart</button>
                 </div>

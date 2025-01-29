@@ -132,6 +132,7 @@ export default function EditPage() {
                                             <FormControl>
                                                 <PhoneInput placeholder="+965 00000000" value={phoneNumber || null} onChange={setPhoneNumber} defaultCountry="KW"
                                                     className="phoneInput-cont" {...field} />
+                                                    
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

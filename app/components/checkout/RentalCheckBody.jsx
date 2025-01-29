@@ -15,6 +15,7 @@ import { rentalCheckOut } from './rentalCheckOut';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { rentalCheckCode } from './rentalCheckCode';
+import { toast } from 'sonner';
 
 export default function RentalCheckBody() {
     const [loading, setLoading] = useState(false);
@@ -64,8 +65,7 @@ export default function RentalCheckBody() {
     let [selectedTab, setSelectedTab] = useState(1);
     const handleCheckCode = async (data) => {
         await rentalCheckCode(data, setLoading, setDiscount, setCode);
-    };
-
+    };    
     const [token, setToken] = useState(localStorage.getItem('token'));
     useEffect(() => {
         // Retrieve token from localStorage
@@ -74,7 +74,8 @@ export default function RentalCheckBody() {
         if (!savedToken) {
             router.push('/login');
         }
-    }, []);
+
+    }, [token]);
     //getAddresses
     useEffect(() => {
         // Fetch governorates
