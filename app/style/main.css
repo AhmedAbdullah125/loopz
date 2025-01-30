@@ -932,12 +932,15 @@ header .cart-balance {
   width: calc(100% - 50px);
 }
 .HomeContentHeader .product-ticket .data-cont {
-  padding: 17px 13px;
+  padding-bottom: 17px;
   border: 1px solid rgba(28, 28, 28, 0.2);
   border-radius: 0 0 10px 10px;
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+.HomeContentHeader .product-ticket .data-cont .prod-name-dess {
+  padding: 17px 13px 0 13px;
 }
 .HomeContentHeader .product-ticket .data-cont .feature-cont {
   height: 100%;
@@ -1038,7 +1041,7 @@ header .cart-balance {
   background-color: transparent;
 }
 .HomeContentHeader .addBtn:hover {
-  transform: scale(1.1);
+  transform: scale(1.03);
 }
 
 .addBtn {
@@ -1145,6 +1148,43 @@ header .cart-balance {
   font-size: 14px;
   font-weight: 700;
   color: var(--main-color);
+}
+
+.favourates-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media only screen and (max-width: 991px) {
+  .favourates-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media only screen and (max-width: 767px) {
+  .favourates-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (max-width: 500px) {
+  .favourates-cards {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.about-page {
+  min-height: calc(100vh - 512px);
+}
+.about-page .cont-wrapper {
+  padding: 27px 36px;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-bottom: 24px;
+}
+.about-page .cont-wrapper p {
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 0;
 }
 
 .footer {

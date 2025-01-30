@@ -8,7 +8,7 @@ export default function CartBreadCramp({ title, titleUrl, subtitle, subtitleUrl 
     }
     // Freecodecamp
     return (
-        <div className="home-slider">
+        <div className="">
             <div className="bead-cramp">
                 <p className='breadLink'><Link href={'/'}>Home</Link> - <Link href={titleUrl}>{title}</Link> {subtitle == "" ? null : <>- <Link href={subtitleUrl}>{subtitle}</Link></>}</p>
             </div>

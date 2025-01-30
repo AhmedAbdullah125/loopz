@@ -40,9 +40,10 @@ export default function Footer() {
             </div>
             <div className="colmn">
               <h3 className='col-title'>Quick Links</h3>
-              <Link href={''} className="col-item">About Loopz</Link>
+              <Link href={'/about'} className="col-item">About Loopz</Link>
               <Link href={'/contact'} className="col-item">Contact Us</Link>
-              <Link href={''} className="col-item">Terms & Privacy Policy</Link>
+              <Link href={'/terms'} className="col-item">Terms </Link>
+              <Link href={'/policy'} className="col-item">Privacy Policy </Link>
             </div>
             <div className="colmn">
               <h3 className='col-title'>Contact</h3>

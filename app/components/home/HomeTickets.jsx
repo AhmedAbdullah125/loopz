@@ -83,23 +83,27 @@ export default function HomeTickets(tickets) {
                             {dataTickets.normal_ticket.map((singleProduct) =>
                                 <SwiperSlide key={singleProduct.id}>
                                     <div className="product-ticket">
-                                        <div className="img-cont">
+                                        <Link href={`/ticket?id=${singleProduct.id}`} className="img-cont">
                                             <Image src={singleProduct.image} width={100} height={100} alt='Loopz'></Image>
                                             <div className="prod-price">
                                                 <span className='num'>{singleProduct.price}</span>
                                                 <span className='curr'>K.D</span>
                                             </div>
-                                        </div>
+                                        </Link>
                                         <div className="data-cont">
-                                            <Link href={`/ticket?id=${singleProduct.id}`} className="productName">{singleProduct.name}</Link>
-                                            <div className="feature-cont">
-                                                {parse(singleProduct.description)}
-                                            </div>
+                                            <Link href={`/ticket?id=${singleProduct.id}`} className='prod-name-dess'>
+                                                <div className="productName">{singleProduct.name}</div>
+                                                <div className="feature-cont">
+                                                    {parse(singleProduct.description)}
+                                                </div>
+                                            </Link>
                                             <div className="circul"></div>
                                             <div className="circul circul2"></div>
-                                            <AlertDialog>
+                                            <AlertDialog >
                                                 <AlertDialogTrigger asChild>
-                                                    <button href={''} className='addBtn'>Book Now</button>
+                                                    <div className="px-3">
+                                                        <button href={''} className='addBtn'>Book Now</button>
+                                                    </div>
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>
                                                     <AlertDialogHeader>
@@ -255,23 +259,27 @@ export default function HomeTickets(tickets) {
                             {dataTickets.combo_ticket.map((singleProduct) =>
                                 <SwiperSlide key={singleProduct.id}>
                                     <div className="product-ticket">
-                                        <div className="img-cont">
+                                        <Link href={`/ticket?id=${singleProduct.id}`} className="img-cont">
                                             <Image src={singleProduct.image} width={100} height={100} alt='Loopz'></Image>
                                             <div className="prod-price">
                                                 <span className='num'>{singleProduct.price}</span>
                                                 <span className='curr'>K.D</span>
                                             </div>
-                                        </div>
+                                        </Link>
                                         <div className="data-cont">
-                                            <Link href={`/ticket?id=${singleProduct.id}`} className="productName">{singleProduct.name}</Link>
-                                            <div className="feature-cont">
-                                                {parse(singleProduct.description)}
-                                            </div>
+                                            <Link href={`/ticket?id=${singleProduct.id}`} className='prod-name-dess'>
+                                                <div className="productName">{singleProduct.name}</div>
+                                                <div className="feature-cont">
+                                                    {parse(singleProduct.description)}
+                                                </div>
+                                            </Link>
                                             <div className="circul"></div>
                                             <div className="circul circul2"></div>
                                             <AlertDialog>
                                                 <AlertDialogTrigger asChild>
-                                                    <button href={''} className='addBtn'>Book Now</button>
+                                                    <div className="px-3">
+                                                        <button href={''} className='addBtn'>Book Now</button>
+                                                    </div>
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>
                                                     <AlertDialogHeader>

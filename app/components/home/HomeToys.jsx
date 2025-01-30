@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Button from 'react-bootstrap/Button';
@@ -14,28 +14,33 @@ import offer from '../../assets/Home/offer.svg'
 import { CounterContext } from '@/app/Context/CounterContext';
 import e from 'cors';
 import { toast } from 'sonner';
+import { favourateToggle } from './favourateToggle';
 
 export default function HomeToys(toys) {
-
-    const popover = (
-        <Popover id="popover-basic">
-            {/* <Popover.Header as="h3">Popover right</Popover.Header> */}
-            <Popover.Body>
-                added
-            </Popover.Body>
-        </Popover>
-    );
-
+    const handleFavorite = async (id) => {
+        await favourateToggle(id, 'toys');
+    };
     let { cartCont, cartHandling } = useContext(CounterContext);
     let data = toys.toys
     let [bookmarks, setBookmarks] = useState([]); //bookMarks array
-    let secBookmark = [];
     let [cart, setCart] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
     let newData = [{ name: "Offers", details: [...data.offers] }, { name: "New Arrival", details: [...data.new_arrival] },]
     for (let i = 0; i < data.category.length; i++) {
         newData.push({ name: data.category[i].name, details: data.category[i].toys })
     }
     let [addStatus, setAddStatus] = useState('Successfully Added to cart');
+    useEffect(() => {
+        const secBookmark = [];
+        for (let index = 0; index < newData.length; index++) {
+            for (let i = 0; i < newData[index].details.length; i++) {
+                if (newData[index].details[i].is_favorite&&!secBookmark.includes(newData[index].details[i].id)) {
+                    secBookmark.push(newData[index].details[i].id);
+                }
+            }
+
+        }
+        setBookmarks(secBookmark);
+    }, [data])
     return (
         <div className='home-toys'>
             <div className="products">
@@ -83,6 +88,7 @@ export default function HomeToys(toys) {
                                         }}
                                     >
                                         {item.details.map((singleProduct, index) =>
+
                                             <SwiperSlide key={index}>
                                                 <div className={`product-card`}>
                                                     {singleProduct.discount > 0 ? (
@@ -92,14 +98,12 @@ export default function HomeToys(toys) {
                                                     ) : null}
 
                                                     <i
-                                                        className={`${bookmarks.includes(singleProduct.id) || singleProduct.is_favorite
-                                                                ? 'fa-solid colored'
-                                                                : 'fa-regular'
+                                                        className={`${bookmarks.includes(singleProduct.id)
+                                                            ? 'fa-solid colored'
+                                                            : 'fa-regular'
                                                             } fa-bookmark`}
                                                         onClick={(event) => {
-                                                            // Prevent event bubbling
-                                                            event.stopPropagation();
-
+                                                            handleFavorite(singleProduct.id);
                                                             if (bookmarks.includes(singleProduct.id)) {
                                                                 // Handle remove from favorites
                                                                 const secBookmark = [...bookmarks];
@@ -115,23 +119,23 @@ export default function HomeToys(toys) {
                                                         }}
                                                     ></i>
 
-                                                    <div className="img-cont">
+                                                    <Link href={`/toy?id=${singleProduct.id}`} className="img-cont">
                                                         <Image src={singleProduct.image} alt="Loopz" width={144} height={144}></Image>
-                                                    </div>
+                                                    </Link>
                                                     <Link href={`/toy?id=${singleProduct.id}`} className="productName">
                                                         {singleProduct.name}
                                                     </Link>
                                                     {/* <span className='productCat'>{singleProduct.category.name}</span> */}
-                                                    <div className="rate">
+                                                    <Link href={`/toy?id=${singleProduct.id}`} className="rate">
                                                         <i className={`fa-solid fa-star ${singleProduct.rate >= 1 ? 'golden' : ''}`}></i>
                                                         <i className={`fa-solid fa-star ${singleProduct.rate >= 2 ? 'golden' : ''}`}></i>
                                                         <i className={`fa-solid fa-star ${singleProduct.rate >= 3 ? 'golden' : ''}`}></i>
                                                         <i className={`fa-solid fa-star ${singleProduct.rate >= 4 ? 'golden' : ''}`}></i>
                                                         <i className={`fa-solid fa-star ${singleProduct.rate >= 5 ? 'golden' : ''}`}></i>
-                                                    </div>
-                                                    <div className="price-period">
+                                                    </Link>
+                                                    <Link href={`/toy?id=${singleProduct.id}`} className="price-period">
                                                         <h4 className="productPrice">{singleProduct.price} K.D</h4>
-                                                    </div>
+                                                    </Link>
 
                                                     <button
                                                         className="addBtn"
