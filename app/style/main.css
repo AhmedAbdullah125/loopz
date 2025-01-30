@@ -59,6 +59,11 @@ body {
   transition: all 0.3s ease;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 figure {
   margin: 0;
 }
@@ -396,6 +401,8 @@ ul.breadcrumb li a:hover {
   display: flex;
   gap: 6px;
   align-items: center;
+  cursor: pointer;
+  color: var(--black-color);
 }
 .upper .van img {
   width: 20px;
@@ -2774,6 +2781,7 @@ header .cart-balance {
 .profile-sideBar .wallet-cont {
   padding: 0 26px;
   margin-bottom: 14px;
+  display: block;
 }
 .profile-sideBar .wallet-cont .wallet {
   display: flex;
@@ -2802,6 +2810,7 @@ header .cart-balance {
   font-size: 16px;
   font-weight: 400;
   margin-bottom: 0;
+  color: var(--black-color);
 }
 .profile-sideBar .wallet-cont .wallet h3 {
   font-size: 22px;
@@ -2892,7 +2901,7 @@ header .cart-balance {
   color: var(--main-color);
 }
 .edit-profile-cont h3 {
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 400;
   margin-bottom: 8px;
 }
@@ -4128,4 +4137,220 @@ header .cart-balance {
   font-size: 11px;
   color: var(--white-color);
   background-color: var(--main-color);
+}
+
+div .react-datepicker {
+  border-radius: 44px;
+  overflow: hidden;
+  padding: 40px 30px;
+  font-family: "Linotte" !important;
+}
+div .react-datepicker__header {
+  background-color: var(--white-color);
+}
+div .react-datepicker__current-month {
+  font-family: "Linotte" !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 13px;
+}
+div .react-datepicker__header:not(.react-datepicker__header--has-time-select) {
+  border-bottom: none;
+}
+div .react-datepicker__day-name {
+  color: #484C52;
+  font-size: 12px;
+  font-weight: 500;
+}
+div .react-datepicker__day--today {
+  color: var(--main-color);
+  font-weight: 900;
+}
+div .react-datepicker__day {
+  font-size: 14px;
+  font-weight: 400;
+}
+div .react-datepicker__day--selected {
+  background-color: var(--main-color);
+  color: var(--white-color);
+  border-radius: 50%;
+}
+div .react-datepicker__triangle {
+  display: none;
+}
+div .react-datepicker__navigation {
+  top: 40px;
+  bottom: unset;
+  color: var(--black-color);
+}
+div .react-datepicker__navigation--next {
+  right: 30px;
+}
+div .react-datepicker__navigation--previous {
+  left: 30px;
+}
+div .react-datepicker__navigation-icon::before {
+  border-color: var(--black-color);
+  border-width: 1px 1px 0 0;
+}
+div .react-datepicker__day--keyboard-selected {
+  background-color: rgba(122, 58, 191, 0.2);
+}
+
+.dates {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+.dates .calender-icon-cont {
+  background-color: rgba(122, 58, 191, 0.2);
+  height: 25px;
+  width: 25px;
+  border-radius: 7px;
+  padding: 5.5px;
+}
+.dates .calender-icon-cont img {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.dates label {
+  position: relative;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dates label input {
+  width: 25px;
+}
+.dates label .react-datepicker-popper {
+  z-index: 1;
+  line-height: 0;
+  transform: translate(calc(-100% + 25px), 35px) !important;
+}
+.dates .react-datepicker__input-container {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.transctios-cont {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.transctios-cont .transaction-cont {
+  background-color: #FCFCFC;
+  border-radius: 10px;
+  border: 1px solid rgba(28, 28, 28, 0.1);
+  padding: 17px 20px;
+  display: flex;
+  gap: 5px;
+}
+@media screen and (max-width: 767px) {
+  .transctios-cont .transaction-cont {
+    padding: 17px 10px;
+  }
+}
+.transctios-cont .transaction-cont .fa-arrow-up {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+.transctios-cont .green .fa-arrow-up {
+  border: 1px solid #53AA00;
+  color: #53AA00;
+  transform: rotate(225deg);
+}
+.transctios-cont .green h4 {
+  color: #53AA00;
+}
+.transctios-cont .red .fa-arrow-up {
+  border: 1px solid #C71919;
+  color: #C71919;
+  transform: rotate(45deg);
+}
+.transctios-cont .red h4 {
+  color: #C71919;
+}
+.transctios-cont h3 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.8px;
+  margin-bottom: 5px;
+}
+.transctios-cont h4 {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.8px;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 18px;
+}
+.transctios-cont p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #484C52;
+  margin-bottom: 0;
+}
+.transctios-cont p i {
+  font-size: 12px;
+}
+.transctios-cont p span {
+  font-size: 12px;
+  font-weight: 400;
+}
+.transctios-cont .trx-details {
+  width: 100%;
+}
+
+.add-to-wallet-btn {
+  height: 48px;
+  padding: 0 30px;
+  border-radius: 7px;
+  background-color: #53AA00;
+  border: 1px solid #53AA00;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white-color);
+  margin-top: 24px;
+}
+
+.add-to-wallet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+  align-items: flex-start;
+}
+.add-to-wallet-form input {
+  height: 48px;
+  padding: 0 30px;
+  border-radius: 7px;
+  background-color: #FCFCFC;
+  border: 1px solid rgba(28, 28, 28, 0.1);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--black-color);
+  width: 100%;
+}
+.add-to-wallet-form label {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--black-color);
 }/*# sourceMappingURL=main.css.map */

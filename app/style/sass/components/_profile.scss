@@ -140,6 +140,7 @@
     .wallet-cont {
         padding: 0 26px;
         margin-bottom: 14px;
+        display: block;
 
         .wallet {
             display: flex;
@@ -168,6 +169,7 @@
                     font-size: 16px;
                     font-weight: 400;
                     margin-bottom: 0;
+                    color: $black;
 
                 }
             }
@@ -281,7 +283,7 @@
     }
 
     h3 {
-        font-size: 12px;
+        font-size: 18px;
         font-weight: 400;
         margin-bottom: 8px;
     }

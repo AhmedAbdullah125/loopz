@@ -13,7 +13,6 @@ import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogFooter, 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { rentalCheckOut } from './rentalCheckOut';
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import { rentalCheckCode } from './rentalCheckCode';
 import { toast } from 'sonner';
 

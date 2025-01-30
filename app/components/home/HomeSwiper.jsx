@@ -32,7 +32,6 @@ export default function HomeSwiper() {
         getHomeData();
 
     }, []);
-    console.log(data);
 
     return (
         <div className="container home-slider">

@@ -35,7 +35,7 @@ export default function SideData() {
                 <i className={`fa-solid ${display ? "fa-x" : "fa-bars"} tooggllee`} onClick={() => setDisplay(!display)}></i>
             </div>
             <div className="linkss" style={{ display: display ? 'block' : 'none' }}>
-                <div className="wallet-cont">
+                <Link href="/profile/wallet" className="wallet-cont">
                     <div className="wallet">
                         <div className="wal-det">
                             <Image src={wallet} alt="wallet" className="wal-img" />
@@ -47,7 +47,7 @@ export default function SideData() {
                             </h3>
                         </div>
                     </div>
-                </div>
+                </Link>
                 <div className={`links-cont ${pathname === '/profile/edit' ? 'links-cont-active' : ''} `}>
                     <div className="link">
                         <div className="img">

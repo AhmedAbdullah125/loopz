@@ -3,7 +3,7 @@ import ReactQueryProvider from "./utils/providers/ReactQueryProvider";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css'
 // import "bootstrap/dist/js/bootstrap.bundle"
-
+import "react-datepicker/dist/react-datepicker.css";
 import "./globals.css";
 import './style/main.css';
 import NavBar from "./components/navBar/NavBar";

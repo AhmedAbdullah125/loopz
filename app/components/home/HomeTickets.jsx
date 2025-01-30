@@ -199,7 +199,6 @@ export default function HomeTickets(tickets) {
                                                         <AlertDialogCancel className="mt-2 sm:mt-0">Cancel</AlertDialogCancel>
                                                         <Button className="mt-2 sm:mt-0 bg-[#7a3abf]" onClick={() => {
                                                             handleCheckout();
-                                                            console.log("clicked");
                                                         }}>Confirm</Button>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>
@@ -372,7 +371,6 @@ export default function HomeTickets(tickets) {
                                                         <AlertDialogCancel className="mt-2 sm:mt-0">Cancel</AlertDialogCancel>
                                                         <Button className="mt-2 sm:mt-0 bg-[#7a3abf]" onClick={() => {
                                                             handleCheckout();
-                                                            console.log("clicked");
                                                         }}>Confirm</Button>
                                                     </AlertDialogFooter>
                                                 </AlertDialogContent>

@@ -54,7 +54,6 @@ export default function Orders() {
         };
         getTickets();
     }, []);
-    console.log(data);
     
 
     const handleCancel = (id) => {
